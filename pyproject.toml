@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+homepage = "https://github.com/RoyalHaskoningDHV/twinn-ml-interface"
+issues = "https://github.com/RoyalHaskoningDHV/twinn-ml-interface/issues"
+discussions = "https://github.com/RoyalHaskoningDHV/twinn-ml-interface/discussions"
+
+[project]
+name = "twinn-ml-interface"
+description = "Machine learning model contracts with machine learning infrastructure"
+readme = "README.md"
+requires-python = ">=3.8,<3.11"
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = []
+dynamic = ["version"]
+
+[tool.setuptools]
+packages.find.include = ["twinn_ml_interface*"]
+dynamic.version.attr = "twinn_ml_interface._version.__version__"
+
+[tool.black]
+line-length = 99
+
+[tool.isort]
+profile = "black"
