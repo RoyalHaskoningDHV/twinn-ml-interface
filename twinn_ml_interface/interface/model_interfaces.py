@@ -1,3 +1,4 @@
+from pathlib import PosixPath
 from typing import (
     Any,
     Callable,
@@ -39,36 +40,36 @@ class ModelInterfaceV4(AnnotationProtocol):
     # List of features used to train the model. If not supplied, equal to data_config().
     train_data_config: Optional[Dict[DataLevels, List]]
 
-    @property
-    def target_tag() -> Union[UnitTagTemplate, UnitTagLiteral]:
+    @staticmethod
+    def get_target_tag_template() -> UnitTagTemplate | UnitTagLiteral:
         """Get the name of the target tag to train the model.
 
         Returns:
-            Union[UnitTagTemplate, UnitTagLiteral]: The unit tag of the model target, either as template or as literal.
+            UnitTagTemplate | UnitTagLiteral: The unit tag of the model target, either as template or as literal.
         """
         ...
 
-    @property
-    def data_config() -> Union[List[DataLabelConfigTemplate], List[UnitTagLiteral]]:
+    @staticmethod
+    def get_data_config() -> List[DataLabelConfigTemplate] | List[UnitTagLiteral]:
         """The specification of data needed to train and predict with the model.
 
         Result:
-            Union[List[DataLabelConfigTemplate], List[UnitTagLiteral]]: The data needed to train and predict with the model,
+            List[DataLabelConfigTemplate], List[UnitTagLiteral]: The data needed to train and predict with the model,
                 either as template or as list of literals.
         """
         ...
 
-    @property
-    def result_tag() -> Union[UnitTagTemplate, UnitTagLiteral]:
+    @staticmethod
+    def get_result_tag() -> UnitTagTemplate | UnitTagLiteral:
         """The tag to post the predictions/results on.
 
         Returns:
-           Union[UnitTagTemplate, UnitTagLiteral]: The unit tag of the model's output, either as template or as literal.
+           UnitTagTemplate, UnitTagLiteral: The unit tag of the model's output, either as template or as literal.
         """
         ...
 
-    @property
-    def unit_properties_template() -> List[TagType]:
+    @staticmethod
+    def get_unit_properties_template() -> List[TagType]:
         """Unit properties to get from the units specified in data_config.
 
         Returns:
@@ -76,8 +77,8 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         return []
 
-    @property
-    def unit_hierarchy_template() -> Dict[str, List[RelativeType]]:
+    @staticmethod
+    def get_unit_hierarchy_template() -> Dict[str, List[RelativeType]]:
         """Request some units from the hierarchy in a dictionary.
 
         Returns:
@@ -85,8 +86,8 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         return {}
 
-    @property
-    def train_window_finder_config_template() -> Optional[List[DataLabelConfigTemplate]]:
+    @staticmethod
+    def get_train_window_finder_config_template() -> Optional[List[DataLabelConfigTemplate]]:
         """The config for running the train window finder.
 
         Returns:
@@ -152,7 +153,7 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         ...
 
-    def dump(self, foldername: str, prefix: str) -> None:
+    def dump(self, foldername: PosixPath, prefix: str) -> None:
         """
         Writes the following files:
         * prefix.pkl
@@ -160,19 +161,23 @@ class ModelInterfaceV4(AnnotationProtocol):
         to the folder given by foldername.
 
         Args:
-            foldername (str): configurable folder name
+            foldername (PosixPath): configurable folder name
             prefix (str): configurable prefix of the file
         """
         return None
 
     @classmethod
-    def load(cls, foldername: str, prefix: str) -> Callable:
+    def load(cls, foldername: PosixPath, prefix: str) -> Callable:
         """
         Reads the following files:
         * prefix.pkl
         * prefix.h5
         from the folder given by foldername.
         Output is an entire instance of the fitted model that was saved
+
+        Args:
+            foldername (PosixPath): configurable folder name
+            prefix (str): configurable prefix of the file
 
         Returns:
             Model class with everything (except data) contained within to call the
