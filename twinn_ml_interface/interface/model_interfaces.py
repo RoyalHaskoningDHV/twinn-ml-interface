@@ -4,6 +4,7 @@ from typing import (
     Dict,
     List,
     Optional,
+    runtime_checkable,
     Tuple,
     Union,
 )
@@ -26,6 +27,7 @@ from objectmodels import (
 Logs: Dict[str, Any]
 
 
+@runtime_checkable
 class ModelInterfaceV4(AnnotationProtocol):
 
     # The name of the model type.
