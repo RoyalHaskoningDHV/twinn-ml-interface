@@ -22,3 +22,8 @@ class FeatureQualityOption(AutoName):
     APPLY = auto()
     STORE_APPLY = auto()
     IGNORE = auto()
+
+
+class TrainWindowSizePriority(AutoName):
+    MIN = auto()
+    MAX = auto()

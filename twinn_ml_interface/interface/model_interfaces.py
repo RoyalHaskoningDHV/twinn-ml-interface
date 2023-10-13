@@ -1,3 +1,4 @@
+import logging
 from pathlib import PosixPath
 from typing import (
     Any,
@@ -8,6 +9,8 @@ from typing import (
 import pandas as pd
 from mlflow.entities import Run
 
+from annotation_protocol import AnnotationProtocol
+
 from objectmodels import (
     ModelCategory,
     DataLabelConfigTemplate,
@@ -15,9 +18,9 @@ from objectmodels import (
     InputData,
     RelativeType,
     TagType,
+    TrainWindowSizePriority,
     UnitTagTemplate,
     UnitTagLiteral,
-    AnnotationProtocol,
 )
 
 Logs: dict[str, Any]
@@ -95,7 +98,7 @@ class ModelInterfaceV4(AnnotationProtocol):
         """Post init function to pass some config to the model.
 
         Args:
-            mlflow_run (Run): A MLflow run object to write logs to MLflow.
+            logger_mlflow (logger): A MLflow run object to write logs to MLflow.
             tenant_config (dict[str, Any]): Tenant specific configuration.
         """
 

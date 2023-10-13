@@ -1,7 +1,6 @@
 import logging
 import warnings
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -16,7 +15,7 @@ def plot_marked_datapoints(
     sensor: pd.Series,
     marked_points: pd.Series,
     title: str = None,
-    figsize: Tuple[int, int] = (20, 10),
+    figsize: tuple[int, int] = (20, 10),
 ):
     """
     Given a pd.Series with sensor data and a boolean pd.Series marked_points with the
@@ -49,15 +48,15 @@ def plot_marked_datapoints(
 
 @dataclass
 class InputData:
-    samdata: pd.DataFrame
-    labels: Optional[Dict[str, pd.DataFrame]] = None
+    samdata: dict[str, pd.DataFrame]
+    labels: dict[str, pd.DataFrame] | None = None
 
     def get_insights_from_labels(
         self,
-        labels_to_plot: List[str],
-        target: Optional[str] = None,
+        labels_to_plot: list[str],
+        target: str | None = None,
         log_all_sensors: bool = False,
-    ) -> Tuple[Dict[str, float], Dict[str, plt.Figure]]:
+    ) -> tuple[dict[str, float], dict[str, plt.Figure]]:
         """
         This method calculates and returns:
         - The percentage of missing values after applying the labels
@@ -65,8 +64,8 @@ class InputData:
 
         Parameters
         ----------
-        labels_to_plot : List[str]
-            List of labels to plot
+        labels_to_plot : list[str]
+            list of labels to plot
         target: str
             target sensor as "ID:TYPE"
         log_all_sensors: bool
@@ -74,7 +73,7 @@ class InputData:
 
         Returns
         -------
-        Tuple[Dict[str, float], Dict[str, plt.Figure]]
+        tuple[dict[str, float], dict[str, plt.Figure]]
             Two dictionaries, one containing missing values per sensor,
             and the second containing the figures
         """
@@ -105,14 +104,14 @@ class InputData:
             warnings.warn("InputData.get_insights_from_labels requires calling apply_labels first")
         return data_removed, figures
 
-    def _format_labels(self, labels_to_apply: List[str]) -> None:
+    def _format_labels(self, labels_to_apply: list[str]) -> None:
         """
         Internal method to format the labels as a dictionary of sets, for convenience
 
         Parameters
         ----------
-        labels_to_apply : List[str]
-            List of label names to reformat
+        labels_to_apply : list[str]
+            list of label names to reformat
         """
         self.formatted_labels = {}
         for label_name in labels_to_apply:
@@ -128,14 +127,14 @@ class InputData:
 
             self.formatted_labels[label_name] = set(zip(*[label_sorted[col] for col in INDEX]))
 
-    def apply_labels(self, labels_to_apply: List[str] = None) -> pd.DataFrame:
+    def apply_labels(self, labels_to_apply: list[str] = None) -> pd.DataFrame:
         """
         Apply labels to samdata to get a clean version of samdata
 
         Parameters
         ----------
-        labels_to_apply : List[str]
-            List of label names to reformat
+        labels_to_apply : list[str]
+            list of label names to reformat
 
         Returns
         -------

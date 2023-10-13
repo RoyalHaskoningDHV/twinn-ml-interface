@@ -1,9 +1,10 @@
 from dataclasses import dataclass
 from datetime import timedelta
 from enum import Enum, IntEnum, auto
-from typing import Callable, Dict, List, Optional
+from typing import Callable
 
-from .UnitTags import TagType, UNIT_TAG_LOOKUP
+from .model_flags import TrainWindowSizePriority
+from .UnitTags import TagType, UNIT_TAG_LOOKUP, TrainWindow
 
 
 class ModelCategory(Enum):
@@ -53,11 +54,11 @@ class Unit:
     unit_code: str
     unit_type_code: str
     active: bool
-    name: Optional[str] = None
-    unit_type_name: Optional[str] = None
-    geometry: Optional[Dict] = None
-    properties: Optional[List] = None
-    metadata: Optional[Dict] = None
+    name: str | None = None
+    unit_type_name: str | None = None
+    geometry: dict | None = None
+    properties: list | None = None
+    metadata: dict | None = None
 
     def __hash__(self):
         return hash(self.unit_code)
@@ -104,18 +105,19 @@ class UnitTag:
 
 @dataclass
 class UnitTagTemplate:
-    relative_path: List[RelativeType]
-    tags: List[TagType]
+    relative_path: list[RelativeType]
+    tags: list[TagType]
 
 
 @dataclass
 class DataLabelConfigTemplate:
     data_level: DataLevels
-    unit_tag_templates: List[UnitTagTemplate]
+    unit_tag_templates: list[UnitTagTemplate]
     availability_level: AvailabilityLevels
-    desired_tag_number: Optional[int] = None
-    labeling_pipelines: Optional[List[str]] = None
-    max_lookback: Optional[timedelta] = None
+    desired_tag_number: int | None = None
+    labeling_pipelines: list[str] | None = None
+    max_lookback: timedelta | None = None
+    train_window_size_priority: TrainWindowSizePriority = TrainWindowSizePriority.MAX
 
     def f(*args, **kwargs):
         return args[0]
@@ -127,4 +129,4 @@ class DataLabelConfigTemplate:
 class Node:
     val: Unit
     parent = None
-    children: Optional[List] = None
+    children: list | None = None
