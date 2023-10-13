@@ -23,7 +23,7 @@ from objectmodels import (
     UnitTagLiteral,
 )
 
-Logs: dict[str, Any]
+Logs = dict[str, Any]
 
 
 @runtime_checkable
