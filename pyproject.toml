@@ -11,14 +11,14 @@ discussions = "https://github.com/RoyalHaskoningDHV/twinn-ml-interface/discussio
 name = "twinn-ml-interface"
 description = "Machine learning model contracts with machine learning infrastructure"
 readme = "README.md"
-requires-python = ">=3.8,<3.11"
+requires-python = ">=3.10,<3.11"
 license = {text = "MIT"}
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-dependencies = []
+dependencies = ["annotation-protocol"]
 dynamic = ["version"]
 
 [tool.setuptools]
