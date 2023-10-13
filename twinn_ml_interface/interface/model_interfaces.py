@@ -2,12 +2,7 @@ from pathlib import PosixPath
 from typing import (
     Any,
     Callable,
-    Dict,
-    List,
-    Optional,
     runtime_checkable,
-    Tuple,
-    Union,
 )
 
 import pandas as pd
@@ -25,7 +20,7 @@ from objectmodels import (
     AnnotationProtocol,
 )
 
-Logs: Dict[str, Any]
+Logs: dict[str, Any]
 
 
 @runtime_checkable
@@ -38,7 +33,7 @@ class ModelInterfaceV4(AnnotationProtocol):
     # Number between (-inf, inf) indicating the model performance.
     performance_value: float
     # List of features used to train the model. If not supplied, equal to data_config().
-    train_data_config: Optional[Dict[DataLevels, List]]
+    train_data_config: dict[DataLevels, list] | None
 
     @staticmethod
     def get_target_tag_template() -> UnitTagTemplate | UnitTagLiteral:
@@ -50,11 +45,11 @@ class ModelInterfaceV4(AnnotationProtocol):
         ...
 
     @staticmethod
-    def get_data_config() -> List[DataLabelConfigTemplate] | List[UnitTagLiteral]:
+    def get_data_config() -> list[DataLabelConfigTemplate] | list[UnitTagLiteral]:
         """The specification of data needed to train and predict with the model.
 
         Result:
-            List[DataLabelConfigTemplate], List[UnitTagLiteral]: The data needed to train and predict with the model,
+            list[DataLabelConfigTemplate] | list[UnitTagLiteral]: The data needed to train and predict with the model,
                 either as template or as list of literals.
         """
         ...
@@ -69,39 +64,39 @@ class ModelInterfaceV4(AnnotationProtocol):
         ...
 
     @staticmethod
-    def get_unit_properties_template() -> List[TagType]:
+    def get_unit_properties_template() -> list[TagType]:
         """Unit properties to get from the units specified in data_config.
 
         Returns:
-            List[TagType]: The tags to request.
+            list[TagType]: The tags to request.
         """
         return []
 
     @staticmethod
-    def get_unit_hierarchy_template() -> Dict[str, List[RelativeType]]:
+    def get_unit_hierarchy_template() -> dict[str, list[RelativeType]]:
         """Request some units from the hierarchy in a dictionary.
 
         Returns:
-            Dict[str, List[RelativeType]]: An identifier for the units to get, and their relative path from the target unit.
+            dict[str, list[RelativeType]]: An identifier for the units to get, and their relative path from the target unit.
         """
         return {}
 
     @staticmethod
-    def get_train_window_finder_config_template() -> Optional[List[DataLabelConfigTemplate]]:
+    def get_train_window_finder_config_template() -> list[DataLabelConfigTemplate] | None:
         """The config for running the train window finder.
 
         Returns:
-            List[DataLabelConfigTemplate], optional: a template for getting the tags needed to run the train window
+            list[DataLabelConfigTemplate] | None: a template for getting the tags needed to run the train window
                 finder. Defaults to None, then no train window finder will be used.
         """
         return None
 
-    def initialize(mlflow_run: Run, tenant_config: Dict[str, Any]) -> None:
+    def initialize(mlflow_run: Run, tenant_config: Logs) -> None:
         """Post init function to pass some config to the model.
 
         Args:
             mlflow_run (Run): A MLflow run object to write logs to MLflow.
-            tenant_config (Dict[str, Any]]): Tenant specific configuration.
+            tenant_config (dict[str, Any]): Tenant specific configuration.
         """
 
     def preprocess(self, input_data: InputData) -> InputData:
@@ -119,7 +114,7 @@ class ModelInterfaceV4(AnnotationProtocol):
     def validate_input_data(
         self,
         input_data: InputData,
-    ) -> Tuple[bool, str]:
+    ) -> tuple[bool, str]:
         """Validate if input data is usable for training.
 
         Args:
@@ -131,25 +126,26 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         return True, "Input data is valid."
 
-    def train(self, input_data: InputData, **kwargs) -> Optional[Logs]:
+    def train(self, input_data: InputData, **kwargs) -> Logs | None:
         """Train a model.
 
         Args:
             input_data (InputData): Preprocessed and validated training data.
 
         Returns:
-            Optional[Logs]: Optionally some logs collected during training.
+            dict[str, Any] | None: Optionally some logs collected during training.
         """
         ...
 
-    def predict(self, input_data: InputData, **kwargs) -> Tuple[List[pd.DataFrame], Optional[Logs]]:
+    def predict(self, input_data: InputData, **kwargs) -> tuple[list[pd.DataFrame], Logs | None]:
         """Run a prediction with a trained model.
 
         Args:
             input_data (InputData): Prediction data.
 
         Returns:
-            Tuple[List[pd.DataFrame], Optional[Logs]]: Dataframe of predictions and optionally some logs collected during prediction.
+            tuple[list[pd.DataFrame], dict[str, Any] | None]: Dataframe of predictions and optionally
+                some logs collected during prediction.
         """
         ...
 
