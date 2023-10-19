@@ -109,13 +109,26 @@ class UnitTagTemplate:
     tags: list[TagType]
 
 
+class LogLevel(Enum):
+    ALL = auto()  # noqa: A003
+    TARGET = auto()
+    NO_LOG = auto()
+
+
+@dataclass
+class LabelConfig:
+    log_level: LogLevel | None = None
+    labeling_pipelines: list[str] | None = None
+    labels_to_use: list[str] | None = None
+
+
 @dataclass
 class DataLabelConfigTemplate:
     data_level: DataLevels
     unit_tag_templates: list[UnitTagTemplate]
     availability_level: AvailabilityLevels
     desired_tag_number: int | None = None
-    labeling_pipelines: list[str] | None = None
+    label_config: LabelConfig | None = None
     max_lookback: timedelta | None = None
     train_window_size_priority: TrainWindowSizePriority = TrainWindowSizePriority.MAX
 
