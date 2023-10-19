@@ -94,11 +94,11 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         return None
 
-    def initialize(mlflow_run: Run, tenant_config: Logs) -> None:
+    def initialize(logger_mlflow: MLflowLogger, tenant_config: Logs) -> None:
         """Post init function to pass some config to the model.
 
         Args:
-            logger_mlflow (logger): A MLflow run object to write logs to MLflow.
+            logger_mlflow (logger): A MLflowLogger object to write logs to MLflow.
             tenant_config (dict[str, Any]): Tenant specific configuration.
         """
 

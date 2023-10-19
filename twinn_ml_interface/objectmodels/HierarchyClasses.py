@@ -4,7 +4,7 @@ from enum import Enum, IntEnum, auto
 from typing import Callable
 
 from .model_flags import TrainWindowSizePriority
-from .UnitTags import TagType, UNIT_TAG_LOOKUP, TrainWindow
+from .UnitTags import TagType, UNIT_TAG_LOOKUP
 
 
 class ModelCategory(Enum):
