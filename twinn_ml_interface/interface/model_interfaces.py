@@ -7,7 +7,6 @@ from typing import (
 )
 
 import pandas as pd
-from mlflow.entities import Run
 
 from annotation_protocol import AnnotationProtocol
 
@@ -16,6 +15,7 @@ from objectmodels import (
     DataLabelConfigTemplate,
     DataLevels,
     InputData,
+    PredictionType,
     RelativeType,
     TagType,
     TrainWindowSizePriority,
@@ -48,7 +48,7 @@ class ModelInterfaceV4(AnnotationProtocol):
         ...
 
     @staticmethod
-    def get_data_config() -> list[DataLabelConfigTemplate] | list[UnitTagLiteral]:
+    def get_data_config_template() -> list[DataLabelConfigTemplate] | list[UnitTagLiteral]:
         """The specification of data needed to train and predict with the model.
 
         Result:
@@ -58,7 +58,7 @@ class ModelInterfaceV4(AnnotationProtocol):
         ...
 
     @staticmethod
-    def get_result_tag() -> UnitTagTemplate | UnitTagLiteral:
+    def get_result_tag_template() -> UnitTagTemplate | UnitTagLiteral:
         """The tag to post the predictions/results on.
 
         Returns:
@@ -117,15 +117,16 @@ class ModelInterfaceV4(AnnotationProtocol):
     def validate_input_data(
         self,
         input_data: InputData,
-    ) -> tuple[bool, str]:
+    ) -> dict[PredictionType, tuple[bool, str | None]]:
         """Validate if input data is usable for training.
 
         Args:
             data (InputData): Training data.
 
         Returns:
-            bool: Whether the data can be used for training. Default always true.
-            str: Additional information about the window.
+            dict[PredictionType, tuple[bool, str | None]]: For each PredictionType you get
+                bool: Whether the data can be used for training. Default always true.
+                str: Additional information about the window.
         """
         return True, "Input data is valid."
 
