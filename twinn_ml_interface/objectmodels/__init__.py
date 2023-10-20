@@ -13,7 +13,7 @@ from .HierarchyClasses import (
 )
 from .InputDataClass import InputData
 from .Logging import MetaDataLogger
-from .model_flags import (
+from .ModelFlags import (
     FeatureQualityOption,
     PredictionType,
     PreprocessingMode,

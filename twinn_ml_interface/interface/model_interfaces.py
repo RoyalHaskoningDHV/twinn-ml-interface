@@ -30,7 +30,6 @@ Logs = dict[str, Any]
 @runtime_checkable
 class ModelInterfaceV4(AnnotationProtocol):
 
-    # The name of the model type.
     model_type_name: str
     # Model category is based on the output of the model.
     model_category: ModelCategory
@@ -95,8 +94,8 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         return None
 
-    def initialize(logger: MetaDataLogger, tenant_config: Logs) -> None:
-        """Post init function to pass some config to the model.
+    def initialize(logger: MetaDataLogger, internal_api: Any) -> None:
+        """Post init function to pass metadata logger and some config to the model.
 
         Args:
             logger (MetaDataLogger): A MetaDataLogger object to write logs to MLflow later.
@@ -131,7 +130,7 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         return True, "Input data is valid."
 
-    def train(self, input_data: InputData, **kwargs) -> Logs | None:
+    def train(self, input_data: InputData, **kwargs) -> None:
         """Train a model.
 
         Args:
@@ -142,7 +141,7 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         ...
 
-    def predict(self, input_data: InputData, **kwargs) -> tuple[list[pd.DataFrame], Logs | None]:
+    def predict(self, input_data: InputData, **kwargs) -> tuple[list[pd.DataFrame]]:
         """Run a prediction with a trained model.
 
         Args:

@@ -15,17 +15,6 @@ class MetaDataLogger():
     >>> md_logger.log_metrics(metrics)
     >>> print(md_logger.metrics)
     ...
-    >>> # Log image
-    >>> from PIL import Image
-    ...
-    >>> my_image = Image.new("RGB", (400, 400), (255, 255, 255))
-    >>> md_logger.log_image(my_image.tobytes(), image_path="images")
-    >>> print(md_logger.images)
-    ...
-    >>> # Log image to temporary file to save RAM
-    >>> md_logger.log_image_to_hd(my_image.tobytes(), image_path="images")
-    >>> print(md_logger.images_hd)
-    ...
     >>> # Reset cache
     >>> md_logger.reset_cache()
     >>> print(md_logger.metrics)
@@ -63,7 +52,7 @@ class MetaDataLogger():
         label: str (default=None)
             Label of how to group this artifact with others
         """
-        self.artifacts.append({artifact_path, label})
+        self.artifacts.append({artifact_path: label})
 
     def log_artifacts(self, artifacts: list[dict[str, str | None]]):
         """Log multiple artifacts / files.
@@ -76,48 +65,9 @@ class MetaDataLogger():
         """
         self.artifacts.extend(artifacts)
 
-    def log_image(self, image: bytes, image_path: str):
-        """Log an image.
-
-        Parameters
-        ----------
-        image: bytes
-            image data to log
-        image_path: str
-            path where to save the image as binary later on if using mlflow.
-        """
-        self.images.append({image: image_path})
-
-    def log_images(self, images: list[dict[bytes, str]]):
-        """Log multiple images.
-
-        Parameters
-        ----------
-        images: list[dict[bytes, str]]
-            List of dictionaries, where each entry is a pair of bytes and strings denoting
-            the images to save and the paths where to save them later on if using mlflow.
-        """
-        self.images.extend(images)
-
-    def log_image_to_hd(self, image: bytes, image_path: str):
-        """Save an image to hard-drive, log the path.
-
-        Parameters
-        ----------
-        image: bytes
-            image data to log
-        image_path: str
-            path where to save the image
-        """
-        with open(image_path, 'wb') as f:
-            f.write(image)
-        self.images_hd.append(image_path)
-
     def reset_cache(self):
         """Clear all stored items in logger cache."""
         self.created_on = datetime.now()
         self.metrics = {}
         self.params = {}
         self.artifacts = []
-        self.images = []
-        self.images_hd = []
