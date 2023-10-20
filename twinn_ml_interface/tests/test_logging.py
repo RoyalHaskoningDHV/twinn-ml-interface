@@ -27,24 +27,27 @@ class TestMetaDataLogger(unittest.TestCase):
         label = "tmpfile"
         with tempfile.TemporaryFile() as tmpfile:
             self.md_logger.log_artifact(tmpfile, label)
-            assert self.artifacts == {tmpfile, label}, 'log_artifact failed'
+            assert self.md_logger.artifacts[-1] == {tmpfile, label}, 'log_artifact failed'
 
     def test_log_artifacts(self):
-        with tempfile.TemporaryFile() as tmpfile1:
-            with tempfile.TemporaryFile() as tmpfile2:
-                self.md_logger.log_artifacts([{tmpfile1}, {tmpfile2}])
-                assert self.artifacts == [
-                    {tmpfile2, None}, {tmpfile2, None}
-                ], 'log_artifacts failed'
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmpfile1 = str(Path(tmpdir) / "tmpfile1")
+            tmpfile2 = str(Path(tmpdir) / "tmpfile2")
+            with open(tmpfile1, 'wb') as f:
+                f.write(self.test_image)
+            with open(tmpfile2, 'wb') as f:
+                f.write(self.test_image2)
+            self.md_logger.log_artifacts([{tmpfile1}, {tmpfile2}])
+            assert self.md_logger.artifacts == [{tmpfile1}, {tmpfile2}], 'log_artifacts failed'
 
     def test_log_image(self):
         self.md_logger.log_image(self.test_image, "image")
-        assert self.md_logger.images == self.test_image, 'log_image failed'
+        assert self.md_logger.images == [{self.test_image: "image"}], 'log_image failed'
 
     def test_log_images(self):
         self.md_logger.log_images([{self.test_image: "image1"}, {self.test_image2: "image2"}])
-        assert self.md_logger.images[-2] == self.test_image, 'log_images failed'
-        assert self.md_logger.images[-1] == self.test_image2, 'log_images failed'
+        assert self.md_logger.images[-2] == {self.test_image: "image1"}, 'log_images failed'
+        assert self.md_logger.images[-1] == {self.test_image2: "image2"}, 'log_images failed'
 
     def test_log_image_to_hd(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -52,17 +55,6 @@ class TestMetaDataLogger(unittest.TestCase):
             self.md_logger.log_image_to_hd(self.test_image, image_path)
             with open(image_path, 'rb') as f:
                 assert f.read() == self.test_image, 'log_image_to_hd failed'
-
-    def test_log_images_to_hd(self):
-        with tempfile.TemporaryDirectory() as tmpdir:
-            image_paths = [
-                str(self.test_image, Path(tmpdir) / "image1"),
-                str(self.test_image, Path(tmpdir) / "image2"),
-            ]
-            self.md_logger.log_images_to_hd(image_paths)
-            for image_path in image_paths:
-                with open(image_path, 'rb') as f:
-                    assert f.read() == self.test_image, 'log_image_to_hd failed'
 
     def test_reset_cache(self):
         self.md_logger.metrics = {'m1': 0}

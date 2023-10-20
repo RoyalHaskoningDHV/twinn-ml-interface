@@ -86,7 +86,7 @@ class MetaDataLogger():
         image_path: str
             path where to save the image as binary later on if using mlflow.
         """
-        self.images.append({image, image_path})
+        self.images.append({image: image_path})
 
     def log_images(self, images: list[dict[bytes, str]]):
         """Log multiple images.
@@ -112,20 +112,6 @@ class MetaDataLogger():
         with open(image_path, 'wb') as f:
             f.write(image)
         self.images_hd.append(image_path)
-
-    def log_images_to_hd(self, images: list[dict[bytes, str]]):
-        """Save images to hard-drive, log the path.
-
-        Parameters
-        ----------
-        images: list[dict[bytes, str]]
-            List of dictionaries, where each dict contains
-            image data to log: path where to save the image
-        """
-        for image, image_path in images.items():
-            with open(image_path, 'wb') as f:
-                f.write(image)
-            self.images_hd.append(image_path)
 
     def reset_cache(self):
         """Clear all stored items in logger cache."""
