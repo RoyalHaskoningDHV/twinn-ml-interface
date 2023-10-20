@@ -12,6 +12,7 @@ from .HierarchyClasses import (
     UnitTagTemplate,
 )
 from .InputDataClass import InputData
+from .Logging import MetaDataLogger
 from .model_flags import (
     FeatureQualityOption,
     PredictionType,
@@ -27,6 +28,7 @@ __all__ = [
     "FeatureQualityOption",
     "InputData",
     "ModelCategory",
+    "MetaDataLogger",
     "Node",
     "PredictionType",
     "PreprocessingMode",

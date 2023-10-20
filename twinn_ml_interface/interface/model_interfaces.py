@@ -10,11 +10,12 @@ import pandas as pd
 
 from annotation_protocol import AnnotationProtocol
 
-from objectmodels import (
+from twinn_ml_interface.objectmodels import (
     ModelCategory,
     DataLabelConfigTemplate,
     DataLevels,
     InputData,
+    MetaDataLogger,
     PredictionType,
     RelativeType,
     TagType,
@@ -94,11 +95,11 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         return None
 
-    def initialize(logger_mlflow: MLflowLogger, tenant_config: Logs) -> None:
+    def initialize(logger: MetaDataLogger, tenant_config: Logs) -> None:
         """Post init function to pass some config to the model.
 
         Args:
-            logger_mlflow (logger): A MLflowLogger object to write logs to MLflow.
+            logger (MetaDataLogger): A MetaDataLogger object to write logs to MLflow later.
             tenant_config (dict[str, Any]): Tenant specific configuration.
         """
 

@@ -12,7 +12,7 @@ class MetaDataLogger():
     >>> # Log metrics
     >>> md_logger = MetaDataLogger()
     >>> metrics = {'r2_score': 0.7, 'num_sensors': 200}
-    >>> md_logger.log_metrics(r2_scores)
+    >>> md_logger.log_metrics(metrics)
     >>> print(md_logger.metrics)
     ...
     >>> # Log image
@@ -32,7 +32,6 @@ class MetaDataLogger():
     """
     def __init__(self):
         self.reset_cache()
-        self.created_on = datetime.now()
 
     def log_metrics(self, metrics: dict):
         """Log multiple metrics. If metric was logged in the same run before, it is overwritten.
@@ -130,9 +129,9 @@ class MetaDataLogger():
 
     def reset_cache(self):
         """Clear all stored items in logger cache."""
+        self.created_on = datetime.now()
         self.metrics = {}
         self.params = {}
         self.artifacts = []
         self.images = []
         self.images_hd = []
-        self.artifacts_hd = []
