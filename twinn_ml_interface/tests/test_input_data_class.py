@@ -2,7 +2,7 @@ import unittest
 
 import pandas as pd
 
-from twin_ml_interface.objectmodels import InputData
+from twinn_ml_interface.objectmodels import InputData
 
 
 class TestInputData(unittest.TestCase):
