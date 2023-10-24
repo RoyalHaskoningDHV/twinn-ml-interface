@@ -141,15 +141,14 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         ...
 
-    def predict(self, input_data: InputData, **kwargs) -> tuple[list[pd.DataFrame]]:
+    def predict(self, input_data: InputData, **kwargs) -> list[pd.DataFrame]:
         """Run a prediction with a trained model.
 
         Args:
             input_data (InputData): Prediction data.
 
         Returns:
-            tuple[list[pd.DataFrame], dict[str, Any] | None]: Dataframe of predictions and optionally
-                some logs collected during prediction.
+            list[pd.DataFrame]: List of dataframes with predictions
         """
         ...
 
