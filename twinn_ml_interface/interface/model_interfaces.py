@@ -1,5 +1,5 @@
 import logging
-from pathlib import PosixPath
+from os import PathLike
 from typing import (
     Any,
     Callable,
@@ -154,7 +154,7 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         ...
 
-    def dump(self, foldername: PosixPath, prefix: str) -> None:
+    def dump(self, foldername: PathLike, prefix: str) -> None:
         """
         Writes the following files:
         * prefix.pkl
@@ -162,13 +162,13 @@ class ModelInterfaceV4(AnnotationProtocol):
         to the folder given by foldername.
 
         Args:
-            foldername (PosixPath): configurable folder name
+            foldername (PathLike): configurable folder name
             prefix (str): configurable prefix of the file
         """
         return None
 
     @classmethod
-    def load(cls, foldername: PosixPath, prefix: str) -> Callable:
+    def load(cls, foldername: PathLike, prefix: str) -> Callable:
         """
         Reads the following files:
         * prefix.pkl
@@ -177,7 +177,7 @@ class ModelInterfaceV4(AnnotationProtocol):
         Output is an entire instance of the fitted model that was saved
 
         Args:
-            foldername (PosixPath): configurable folder name
+            foldername (PathLike): configurable folder name
             prefix (str): configurable prefix of the file
 
         Returns:
