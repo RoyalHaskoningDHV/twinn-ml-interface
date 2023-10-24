@@ -37,6 +37,8 @@ class ModelInterfaceV4(AnnotationProtocol):
     performance_value: float
     # List of features used to train the model. If not supplied, equal to data_config().
     train_data_config: dict[DataLevels, list] | None
+    # This is only needed when get_target_tag_template returns UnitTagTemplate
+    target: UnitTagLiteral | None = None
 
     @staticmethod
     def get_target_tag_template() -> UnitTagTemplate | UnitTagLiteral:
