@@ -154,7 +154,7 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         ...
 
-    def dump(self, foldername: PathLike, prefix: str) -> None:
+    def dump(self, foldername: PathLike, filename: str) -> None:
         """
         Writes the following files:
         * prefix.pkl
@@ -163,7 +163,7 @@ class ModelInterfaceV4(AnnotationProtocol):
 
         Args:
             foldername (PathLike): configurable folder name
-            prefix (str): configurable prefix of the file
+            filename (str): name of the file
         """
         return None
 
