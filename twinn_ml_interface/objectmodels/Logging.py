@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-class MetaDataLogger():
+class MetaDataLogger:
     """A logging object with specific methods to keep track of metrics, parameters,
     artifacts/files and images one might want to log to mlflow later on. The information is
     stored in the object until `self.reset_cache()` is called. For larger objects it is
@@ -19,6 +19,7 @@ class MetaDataLogger():
     >>> md_logger.reset_cache()
     >>> print(md_logger.metrics)
     """
+
     def __init__(self):
         self.reset_cache()
 

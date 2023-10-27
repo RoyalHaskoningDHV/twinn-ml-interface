@@ -29,7 +29,6 @@ docs/build/
 # Image types
 *.jpeg
 *.jpg
-*.yml
 
 # Logger
 *.log

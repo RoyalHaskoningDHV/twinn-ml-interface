@@ -14,35 +14,38 @@ class TestMetaDataLogger(unittest.TestCase):
         self.test_image2 = Image.new("RGB", (100, 100), (0, 0, 0)).tobytes()
 
     def test_log_metrics(self):
-        metrics = {'m1': 0.7, 'm2': 200}
+        metrics = {"m1": 0.7, "m2": 200}
         self.md_logger.log_metrics(metrics)
-        assert self.md_logger.metrics == metrics, 'log_metrics failed'
+        assert self.md_logger.metrics == metrics, "log_metrics failed"
 
     def test_log_params(self):
-        params = {'p1': 0.7, 'p2': 200}
+        params = {"p1": 0.7, "p2": 200}
         self.md_logger.log_params(params)
-        assert self.md_logger.params == params, 'log_params failed'
+        assert self.md_logger.params == params, "log_params failed"
 
     def test_log_artifact(self):
         label = "tmpfile"
         with tempfile.TemporaryFile() as tmpfile:
             self.md_logger.log_artifact(tmpfile, label)
-            assert self.md_logger.artifacts[-1] == {tmpfile, label}, 'log_artifact failed'
+            assert self.md_logger.artifacts[-1] == {tmpfile: label}, "log_artifact failed"
 
     def test_log_artifacts(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmpfile1 = str(Path(tmpdir) / "tmpfile1")
             tmpfile2 = str(Path(tmpdir) / "tmpfile2")
-            with open(tmpfile1, 'wb') as f:
+            with open(tmpfile1, "wb") as f:
                 f.write(self.test_image)
-            with open(tmpfile2, 'wb') as f:
+            with open(tmpfile2, "wb") as f:
                 f.write(self.test_image2)
-            self.md_logger.log_artifacts([{tmpfile1}, {tmpfile2}])
-            assert self.md_logger.artifacts == [{tmpfile1}, {tmpfile2}], 'log_artifacts failed'
+            self.md_logger.log_artifacts([{tmpfile1: None}, {tmpfile2: None}])
+            assert self.md_logger.artifacts == [
+                {tmpfile1: None},
+                {tmpfile2: None},
+            ], "log_artifacts failed"
 
     def test_reset_cache(self):
-        self.md_logger.metrics = {'m1': 0}
-        self.md_logger.params = {'p1': 1}
+        self.md_logger.metrics = {"m1": 0}
+        self.md_logger.params = {"p1": 1}
         self.md_logger.artifacts = [123]
         self.md_logger.reset_cache()
         assert self.md_logger.metrics == {}

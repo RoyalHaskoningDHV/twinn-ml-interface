@@ -17,8 +17,11 @@ class DataLevels(Enum):
     sensor_data = "data"
     downsampled_sensor_data = "downsampleddata"
     weather = "weather"
+    availability = "availability"
+    predictions = "predictions"
+    anomalies = "anomalies"
 
-    # This class is copied to avoid circular imports. This is needed to check equality with copies of this class.
+    # This is needed to check equality with copies of this class.
     def __hash__(self):
         return super().__hash__()
 
@@ -29,11 +32,22 @@ class DataLevels(Enum):
 
 
 class AvailabilityLevels(IntEnum):
+    """Availability levels.
+
+    Enum for different possibilities for unit availability
+    all: don't filter on unit availability
+    only_available: filter on unit availability (only return available data)
+    show_available: don't filter on unit availability but include availability tag
+    available_until_now: filter on availability and discard if the last datapoint is
+        unavailable or if the unavailable interval is in the future
+    """
+
     all = auto()
     only_available = auto()
     show_available = auto()
+    available_until_now = auto()
 
-    # This class is copied to avoid circular imports. This is needed to check equality with copies of this class.
+    # This is needed to check equality with copies of this class.
     def __hash__(self):
         return super().__hash__()
 

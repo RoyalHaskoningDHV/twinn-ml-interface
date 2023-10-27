@@ -1,4 +1,3 @@
-import logging
 from os import PathLike
 from typing import (
     Any,
@@ -19,7 +18,6 @@ from twinn_ml_interface.objectmodels import (
     PredictionType,
     RelativeType,
     TagType,
-    TrainWindowSizePriority,
     UnitTagTemplate,
     UnitTagLiteral,
 )
@@ -29,7 +27,6 @@ Logs = dict[str, Any]
 
 @runtime_checkable
 class ModelInterfaceV4(AnnotationProtocol):
-
     model_type_name: str
     # Model category is based on the output of the model.
     model_category: ModelCategory
@@ -45,7 +42,8 @@ class ModelInterfaceV4(AnnotationProtocol):
         """Get the name of the target tag to train the model.
 
         Returns:
-            UnitTagTemplate | UnitTagLiteral: The unit tag of the model target, either as template or as literal.
+            UnitTagTemplate | UnitTagLiteral: The unit tag of the model target,
+            either as template or as literal.
         """
         ...
 
@@ -54,8 +52,8 @@ class ModelInterfaceV4(AnnotationProtocol):
         """The specification of data needed to train and predict with the model.
 
         Result:
-            list[DataLabelConfigTemplate] | list[UnitTagLiteral]: The data needed to train and predict with the model,
-                either as template or as list of literals.
+            list[DataLabelConfigTemplate] | list[UnitTagLiteral]: The data needed to train and
+                predict with the model, either as template or as list of literals.
         """
         ...
 
@@ -64,7 +62,8 @@ class ModelInterfaceV4(AnnotationProtocol):
         """The tag to post the predictions/results on.
 
         Returns:
-           UnitTagTemplate, UnitTagLiteral: The unit tag of the model's output, either as template or as literal.
+            UnitTagTemplate, UnitTagLiteral: The unit tag of the model's output, either as
+                template or as literal.
         """
         ...
 
@@ -82,7 +81,8 @@ class ModelInterfaceV4(AnnotationProtocol):
         """Request some units from the hierarchy in a dictionary.
 
         Returns:
-            dict[str, list[RelativeType]]: An identifier for the units to get, and their relative path from the target unit.
+            dict[str, list[RelativeType]]: An identifier for the units to get, and their
+                relative path from the target unit.
         """
         return {}
 
@@ -91,8 +91,9 @@ class ModelInterfaceV4(AnnotationProtocol):
         """The config for running the train window finder.
 
         Returns:
-            list[DataLabelConfigTemplate] | None: a template for getting the tags needed to run the train window
-                finder. Defaults to None, then no train window finder will be used.
+            list[DataLabelConfigTemplate] | None: a template for getting the tags needed to run
+                the train window finder. Defaults to None, then no train window finder will be
+                used.
         """
         return None
 
