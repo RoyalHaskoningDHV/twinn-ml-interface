@@ -56,7 +56,7 @@ class Unit:
     active: bool
     name: str | None = None
     unit_type_name: str | None = None
-    geometry: dict | None = None
+    geometry: dict[str, list[float]] | None = None
     properties: list | None = None
     metadata: dict | None = None
 
