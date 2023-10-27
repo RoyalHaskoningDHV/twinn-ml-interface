@@ -60,6 +60,7 @@ sdist/
 var/
 wheels/
 pip-wheel-metadata/
+pip.config
 share/python-wheels/
 *.egg-info/
 .installed.cfg

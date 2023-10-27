@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 class TestModelInterface:
@@ -28,7 +28,7 @@ class TestModelInterface:
         if not issubclass(self.model, self.base_model):
             raise ValueError("model is not a subclass of base_model")
 
-    def test_model_accepts_kwargs(self, kwargs: Optional[Dict[str, Any]] = None):
+    def test_model_accepts_kwargs(self, kwargs: dict[str, Any] | None = None):
         all_kwargs = {
             "target": "",
             "unit_properties": {},

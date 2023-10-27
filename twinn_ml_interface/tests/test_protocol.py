@@ -1,2 +1,0 @@
-# Run TestModelInterface
-# Run mocks

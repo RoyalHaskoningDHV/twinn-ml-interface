@@ -12,25 +12,31 @@ from .HierarchyClasses import (
     UnitTagTemplate,
 )
 from .InputDataClass import InputData
-from .model_flags import FeatureQualityOption, PredictionType, PreprocessingMode
-from .AnnotationProtocol import AnnotationProtocol
+from .Logging import MetaDataLogger
+from .ModelFlags import (
+    FeatureQualityOption,
+    PredictionType,
+    PreprocessingMode,
+    TrainWindowSizePriority,
+)
 
 __all__ = [
-    "AnnotationProtocol",
     "AvailabilityLevels",
     "DataConfigTemplate",
     "DataLabelConfigTemplate",
     "DataLevels",
+    "FeatureQualityOption",
+    "InputData",
     "ModelCategory",
+    "MetaDataLogger",
     "Node",
+    "PredictionType",
+    "PreprocessingMode",
     "RelativeType",
     "TagType",
+    "TrainWindowSizePriority",
     "Unit",
     "UnitTag",
     "UnitTagLiteral",
     "UnitTagTemplate",
-    "InputData",
-    "FeatureQualityOption",
-    "PredictionType",
-    "PreprocessingMode",
 ]
