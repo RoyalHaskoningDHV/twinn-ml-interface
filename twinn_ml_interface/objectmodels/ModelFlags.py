@@ -25,5 +25,5 @@ class FeatureQualityOption(AutoName):
 
 
 class TrainWindowSizePriority(AutoName):
-    MIN = auto()
-    MAX = auto()
+    MIN = "min"
+    MAX = "max"
