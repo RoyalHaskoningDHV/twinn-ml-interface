@@ -18,12 +18,12 @@ class Configuration(Protocol):
 
     @cached_property
     def unit_properties(self) -> dict[TagType, dict[str, Any]]:
-        """Get and cache the ."""
+        """Get and cache the unit_properties."""
         ...
 
     @cached_property
     def unit_hierarchies(self) -> dict[str, list[str]]:
-        """Get and cache the ."""
+        """Get and cache the unit_hierarchies."""
         ...
 
     @cached_property

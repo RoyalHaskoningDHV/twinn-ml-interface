@@ -33,7 +33,7 @@ class ModelInterfaceV4(AnnotationProtocol):
     model_category: ModelCategory
     # Number between (-inf, inf) indicating the model performance.
     performance_value: float
-    # List of features used to train the model. If not supplied, equal to data_config().
+    # List of features used to train the model. If not supplied, equal to get_data_config_template().
     train_data_config: dict[DataLevels, list[UnitTagLiteral]] | None
     # This is only needed when get_target_tag_template returns UnitTagTemplate
     target: UnitTagLiteral | None = None
@@ -70,7 +70,7 @@ class ModelInterfaceV4(AnnotationProtocol):
 
     @staticmethod
     def get_unit_properties_template() -> list[TagType]:
-        """Unit properties to get from the units specified in data_config.
+        """Unit properties to get from the units used in the model.
 
         Returns:
             list[TagType]: The tags to request.

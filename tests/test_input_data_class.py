@@ -25,7 +25,7 @@ class TestInputData(unittest.TestCase):
             }
         ).astype({"VALUE": "float64"})
 
-        self.data = pd.concat([sensor1, sensor2])
+        self.data = pd.concat([sensor1, sensor2]).reset_index(drop=True)
 
         self.test_df = pd.DataFrame(columns=["test"], index=pd.DatetimeIndex([]))
         self.foo_df = pd.DataFrame(columns=["foo"], index=pd.DatetimeIndex([]))
@@ -59,3 +59,7 @@ class TestInputData(unittest.TestCase):
     def test_min_time(self):
         input_data = InputData.from_long_df(self.data)
         assert input_data.get_min_time() == pd.Timestamp("1970-01-01 00:00:00")
+
+    def test_to_log_format(self):
+        input_data = InputData.from_long_df(self.data)
+        assert (input_data.to_long_format()[self.data.columns]).equals(self.data)

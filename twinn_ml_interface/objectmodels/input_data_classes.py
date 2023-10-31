@@ -84,6 +84,18 @@ class InputData(dict[str, pd.DataFrame]):
         """
         return min([v.index.min() for _, v in self.items()])
 
+    def to_long_format(self):
+        data = []
+        for k, v in self.items():
+            id_, type_ = k.split(":")
+            long_format = v.rename(columns={k: "VALUE"})
+            long_format["ID"] = id_
+            long_format["TYPE"] = type_
+            long_format.reset_index(names="TIME", inplace=True)
+            data.append(long_format)
+
+        return pd.concat(data).reset_index(drop=True)
+
     @classmethod
     def from_long_df(cls, df: pd.DataFrame) -> "InputData":
         data_chunks = {}
