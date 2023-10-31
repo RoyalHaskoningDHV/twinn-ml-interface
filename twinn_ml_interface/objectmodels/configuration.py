@@ -1,6 +1,8 @@
 from functools import cached_property
 from typing import Any, Protocol
 
+from .hierarchy_classes import TagType
+
 
 class Configuration(Protocol):
     @cached_property
@@ -15,7 +17,7 @@ class Configuration(Protocol):
         ...
 
     @cached_property
-    def unit_properties(self) -> dict[Any, dict[str, Any]]:
+    def unit_properties(self) -> dict[TagType, dict[str, Any]]:
         """Get and cache the ."""
         ...
 
