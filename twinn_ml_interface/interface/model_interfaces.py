@@ -34,7 +34,7 @@ class ModelInterfaceV4(AnnotationProtocol):
     # Number between (-inf, inf) indicating the model performance.
     performance_value: float
     # List of features used to train the model. If not supplied, equal to data_config().
-    train_data_config: dict[DataLevels, list] | None
+    train_data_config: dict[DataLevels, list[UnitTagLiteral]] | None
     # This is only needed when get_target_tag_template returns UnitTagTemplate
     target: UnitTagLiteral | None = None
 
