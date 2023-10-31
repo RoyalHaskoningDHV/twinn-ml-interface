@@ -1,11 +1,11 @@
-from .Exceptions import (
+from .exceptions import (
     construct_model_exception_text,
     MessageType,
     BaseError,
     ModelException,
 )
 
-from .HierarchyClasses import (
+from .hierarchy_classes import (
     AvailabilityLevels,
     DataLabelConfigTemplate,
     DataLevels,
@@ -20,14 +20,15 @@ from .HierarchyClasses import (
     UnitTagLiteral,
     UnitTagTemplate,
 )
-from .InputDataClass import InputData
-from .Logging import MetaDataLogger
-from .ModelFlags import (
+from .input_data_classes import InputData
+from .logging import MetaDataLogger
+from .model_flags import (
     FeatureQualityOption,
     PredictionType,
     PreprocessingMode,
     TrainWindowSizePriority,
 )
+from .configuration import Configuration
 
 __all__ = [
     "construct_model_exception_text",
@@ -35,6 +36,7 @@ __all__ = [
     "BaseError",
     "ModelException",
     "AvailabilityLevels",
+    "Configuration",
     "DataConfigTemplate",
     "DataLabelConfigTemplate",
     "DataLevels",

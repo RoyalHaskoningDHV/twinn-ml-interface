@@ -3,8 +3,8 @@ from datetime import timedelta
 from enum import Enum, IntEnum, auto
 from typing import Callable
 
-from .ModelFlags import TrainWindowSizePriority
-from .UnitTags import TagType, UNIT_TAG_LOOKUP
+from .model_flags import TrainWindowSizePriority
+from .unit_tags import TagType, UNIT_TAG_LOOKUP
 
 
 class ModelCategory(Enum):
