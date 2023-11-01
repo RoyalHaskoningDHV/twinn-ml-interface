@@ -1,3 +1,4 @@
+from __future__ import annotations
 from os import PathLike
 from typing import (
     Any,
@@ -116,14 +117,18 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         return {}
 
-    def initialize(logger: MetaDataLogger, configuration: Configuration) -> None:
+    @classmethod
+    def initialize(cls, logger: MetaDataLogger, configuration: Configuration) -> ModelInterfaceV4:
         """Post init function to pass metadata logger and some config to the model.
 
         Args:
             logger (MetaDataLogger): A MetaDataLogger object to write logs to MLflow later.
-            tenant_config (dict[str, Any]): Tenant specific configuration.
+            configuration (Configuration): an API-like object to retrieve configuration.
         """
-        ...
+        model = cls(configuration.target_name)
+        model.logger = logger
+        model.configuration = configuration
+        return model
 
     def preprocess(self, input_data: InputData) -> InputData:
         """Preprocess input data before training.
