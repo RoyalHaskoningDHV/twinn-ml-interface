@@ -14,12 +14,3 @@ class TagType(AutoName):
 class ProductTagType(TagType):
     PRODUCT_TAG_1 = auto()
     PRODUCT_TAG_2 = auto()
-
-
-# Map unit types to tag names.
-UNIT_TAG_LOOKUP = {
-    ProductTagType.PRODUCT_TAG_1: {
-        "UNIT_TYPE": "TAG_NAME",
-        "UNIT_TYPE_2": "TAG_NAME_2",
-    },
-}

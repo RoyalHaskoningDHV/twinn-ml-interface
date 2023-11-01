@@ -4,7 +4,9 @@ from enum import Enum, IntEnum, auto
 from typing import Callable
 
 from .model_flags import TrainWindowSizePriority
-from .unit_tags import TagType, UNIT_TAG_LOOKUP
+from .unit_tags import TagType
+
+TagMapping = dict[TagType, dict[str, str]]
 
 
 class ModelCategory(Enum):
@@ -100,21 +102,15 @@ class UnitTag:
     unit: Unit
     tag: TagType
 
-    def __str__(self) -> str:
-        unit_tag_lookup = UNIT_TAG_LOOKUP[self.tag]
-        if self.unit.unit_type_code not in unit_tag_lookup:
+    def to_string(self, tag_mapping: TagMapping) -> str:
+        if self.unit.unit_type_code not in tag_mapping[self.tag]:
             raise KeyError(f"{self.unit.unit_type_code} does not exist in lookup.")
 
-        tag = unit_tag_lookup[self.unit.unit_type_code]
+        tag = tag_mapping[self.tag][self.unit.unit_type_code]
         return f"{self.unit.unit_code}:{tag}"
 
     def __hash__(self):
         return hash(f"{self.unit}:{self.tag.name}")
-
-    def __eq__(self, other):
-        if isinstance(other, UnitTag):
-            return self.unit == other.unit
-        return NotImplemented
 
 
 @dataclass

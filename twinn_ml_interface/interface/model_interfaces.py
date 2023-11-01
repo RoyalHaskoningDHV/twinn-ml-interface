@@ -19,6 +19,7 @@ from twinn_ml_interface.objectmodels import (
     PredictionType,
     RelativeType,
     TagType,
+    TagMapping,
     UnitTagTemplate,
     UnitTagLiteral,
 )
@@ -33,7 +34,7 @@ class ModelInterfaceV4(AnnotationProtocol):
     model_category: ModelCategory
     # Number between (-inf, inf) indicating the model performance.
     performance_value: float
-    # List of features used to train the model. If not supplied, equal to get_data_config_template().
+    # Features used to train the model. If not supplied, equal to get_data_config_template().
     train_data_config: dict[DataLevels, list[UnitTagLiteral]] | None
     # This is only needed when get_target_tag_template returns UnitTagTemplate
     target: UnitTagLiteral | None = None
@@ -97,6 +98,23 @@ class ModelInterfaceV4(AnnotationProtocol):
                 used.
         """
         return None
+
+    @staticmethod
+    def get_tag_mapping() -> TagMapping:
+        """A lookup for mapping tags to the unit type.
+
+        Returns:
+            TagMapping: a dict[TagType, dict[str, str]].
+
+        Example:
+            UNIT_TAG_LOOKUP = {
+                ProductTagType.PRODUCT_TAG_1: {
+                    "UNIT_TYPE": "TAG_NAME",
+                    "UNIT_TYPE_2": "TAG_NAME_2",
+                },
+            }
+        """
+        return {}
 
     def initialize(logger: MetaDataLogger, configuration: Configuration) -> None:
         """Post init function to pass metadata logger and some config to the model.
