@@ -1,4 +1,13 @@
 from datetime import datetime
+from dataclasses import dataclass
+
+
+@dataclass
+class Metric:
+    key: str
+    value: float
+    timestamp: int
+    step: int
 
 
 class MetaDataLogger:
@@ -11,7 +20,7 @@ class MetaDataLogger:
     --------
     >>> # Log metrics
     >>> md_logger = MetaDataLogger()
-    >>> metrics = {'r2_score': 0.7, 'num_sensors': 200}
+    >>> metrics = [Metric('r2_score', 0.7 ), Metric('num_sensors', 200)]
     >>> md_logger.log_metrics(metrics)
     >>> print(md_logger.metrics)
     ...
@@ -23,52 +32,53 @@ class MetaDataLogger:
     def __init__(self):
         self.reset_cache()
 
-    def log_metrics(self, metrics: dict):
-        """Log multiple metrics. If metric was logged in the same run before, it is overwritten.
+    def log_metric(self, metric: Metric):
+        """Log a Metric.
 
-        Parameters
-        ----------
-        metrics: dict
-            Each dictionary entry denotes one metric description: value pair.
+        Metrics with the same Metric.key but different attributes can be used to create graphs.
+
+        Args:
+            metric (Metric): Any Metric
         """
-        self.metrics = self.metrics | metrics
+        self.metrics.append(metric)
+
+    def log_metrics(self, metrics: list[Metric]):
+        """Log multiple metrics
+
+        Args:
+            metrics (list[Metric]) : Each element is a metric
+        """
+        self.metrics += metrics
 
     def log_params(self, params: dict):
         """Log multiple parameters. If parameter was logged in same run before, it is overwritten.
 
-        Parameters
-        ----------
-        params: dict
-            Each dictionary entry denotes one parameter description: value pair.
+        Args:
+            params (dict): Each dictionary entry denotes one parameter description: value pair.
         """
         self.params = self.params | params
 
-    def log_artifact(self, artifact_path: str, label: str = None):
+    def log_artifact(self, artifact_path: str, label: str | None = None):
         """Log an artifact / file.
 
-        Parameters
-        ----------
-        artifact_path: str
-            Path to file to log
-        label: str (default=None)
-            Label of how to group this artifact with others
+        Args:
+            artifact_path (str): Path to file to log
+            label(str | None): Label of how to group this artifact with others. Defaults to None.
         """
         self.artifacts.append({artifact_path: label})
 
     def log_artifacts(self, artifacts: list[dict[str, str | None]]):
         """Log multiple artifacts / files.
 
-        Parameters
-        ----------
-        artifacts: list[dict[str, str | None]]
-            List of dictionaries with paths of artifacts / files to log as keys and
-            grouping labels as values (can be None)
+        Args:
+            artifacts (list[dict[str, str | None]]): List of dictionaries with paths of
+                artifacts / files to log as keys and grouping labels as values (can be None)
         """
         self.artifacts.extend(artifacts)
 
     def reset_cache(self):
         """Clear all stored items in logger cache."""
         self.created_on = datetime.now()
-        self.metrics = {}
+        self.metrics = []
         self.params = {}
         self.artifacts = []
