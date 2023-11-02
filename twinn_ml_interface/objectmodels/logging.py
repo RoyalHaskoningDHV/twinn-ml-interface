@@ -6,8 +6,8 @@ from dataclasses import dataclass
 class Metric:
     key: str
     value: float
-    timestamp: int
-    step: int
+    timestamp: int = 0
+    step: int = 0
 
 
 class MetaDataLogger:
