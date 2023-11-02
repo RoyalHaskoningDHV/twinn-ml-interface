@@ -19,10 +19,9 @@ from twinn_ml_interface.objectmodels import (
     MetaDataLogger,
     PredictionType,
     RelativeType,
-    TagType,
-    TagMapping,
     UnitTagTemplate,
-    UnitTagLiteral,
+    Tag,
+    UnitTag,
 )
 
 Logs = dict[str, Any]
@@ -36,46 +35,46 @@ class ModelInterfaceV4(AnnotationProtocol):
     # Number between (-inf, inf) indicating the model performance.
     performance_value: float
     # Features used to train the model. If not supplied, equal to get_data_config_template().
-    train_data_config: dict[DataLevels, list[UnitTagLiteral]] | None
+    train_data_config: dict[DataLevels, list[UnitTag]] | None
     # This is only needed when get_target_tag_template returns UnitTagTemplate
-    target: UnitTagLiteral | None = None
+    target: UnitTag | None = None
 
     @staticmethod
-    def get_target_tag_template() -> UnitTagTemplate | UnitTagLiteral:
+    def get_target_tag_template() -> UnitTagTemplate | UnitTag:
         """Get the name of the target tag to train the model.
 
         Returns:
-            UnitTagTemplate | UnitTagLiteral: The unit tag of the model target,
+            UnitTagTemplate | UnitTag: The unit tag of the model target,
             either as template or as literal.
         """
         ...
 
     @staticmethod
-    def get_data_config_template() -> list[DataLabelConfigTemplate] | list[UnitTagLiteral]:
+    def get_data_config_template() -> list[DataLabelConfigTemplate] | list[UnitTag]:
         """The specification of data needed to train and predict with the model.
 
         Result:
-            list[DataLabelConfigTemplate] | list[UnitTagLiteral]: The data needed to train and
+            list[DataLabelConfigTemplate] | list[UnitTag]: The data needed to train and
                 predict with the model, either as template or as list of literals.
         """
         ...
 
     @staticmethod
-    def get_result_tag_template() -> UnitTagTemplate | UnitTagLiteral:
+    def get_result_tag_template() -> UnitTagTemplate | UnitTag:
         """The tag to post the predictions/results on.
 
         Returns:
-            UnitTagTemplate, UnitTagLiteral: The unit tag of the model's output, either as
+            UnitTagTemplate, UnitTag: The unit tag of the model's output, either as
                 template or as literal.
         """
         ...
 
     @staticmethod
-    def get_unit_properties_template() -> list[TagType]:
+    def get_unit_properties_template() -> list[Tag]:
         """Unit properties to get from the units used in the model.
 
         Returns:
-            list[TagType]: The tags to request.
+            list[Tag]: The tags to request.
         """
         return []
 
@@ -99,23 +98,6 @@ class ModelInterfaceV4(AnnotationProtocol):
                 used.
         """
         return None
-
-    @staticmethod
-    def get_tag_mapping() -> TagMapping:
-        """A lookup for mapping tags to the unit type.
-
-        Returns:
-            TagMapping: a dict[TagType, dict[str, str]].
-
-        Example:
-            UNIT_TAG_LOOKUP = {
-                ProductTagType.PRODUCT_TAG_1: {
-                    "UNIT_TYPE": "TAG_NAME",
-                    "UNIT_TYPE_2": "TAG_NAME_2",
-                },
-            }
-        """
-        return {}
 
     @classmethod
     def initialize(cls, logger: MetaDataLogger, configuration: Configuration) -> ModelInterfaceV4:

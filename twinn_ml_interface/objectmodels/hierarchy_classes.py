@@ -4,9 +4,6 @@ from enum import Enum, IntEnum, auto
 from typing import Callable
 
 from .model_flags import TrainWindowSizePriority
-from .unit_tags import TagType
-
-TagMapping = dict[TagType, dict[str, str]]
 
 
 class ModelCategory(Enum):
@@ -86,28 +83,34 @@ class Unit:
 
 
 @dataclass
-class UnitTagLiteral:
-    unit_code: str
-    tag_name: str
+class Tag:
+    """The tag denotes a timeseries of the unit.
 
-    def __hash__(self):
-        return hash(f"{self.unit_code}:{self.tag_name}")
-
-    def __str__(self) -> str:
-        return f"{self.unit_code}:{self.tag_name}"
-
+    Args:
+        name (str | None): name of the tag if literal, None if mapping is used.
+        mapping (dict[str, str] | None): a mapping with unit_type as key and the corresponding tag as value.
+            Defaults to None.
+    """
+    name: str | None
+    mapping: dict[str, str] | None = None
+    
+    def to_string(self, unit_type_code: str | None = None):
+        if self.name:
+            return self.name
+        
+        if not self.mapping or not unit_type_code or unit_type_code not in self.mapping:
+            msg = f"Couldn't find {unit_type_code=} in {self.mapping}"
+            raise LookupError(msg)
+        
+        return self.mapping[unit_type_code]
 
 @dataclass
 class UnitTag:
     unit: Unit
-    tag: TagType
+    tag: Tag
 
-    def to_string(self, tag_mapping: TagMapping) -> str:
-        if self.unit.unit_type_code not in tag_mapping[self.tag]:
-            raise KeyError(f"{self.unit.unit_type_code} does not exist in lookup.")
-
-        tag = tag_mapping[self.tag][self.unit.unit_type_code]
-        return f"{self.unit.unit_code}:{tag}"
+    def __str__(self) -> str:
+        return f"{self.unit.unit_code}:{self.tag.to_string(self.unit.unit_type_code)}"
 
     def __hash__(self):
         return hash(f"{self.unit}:{self.tag.name}")
@@ -116,7 +119,7 @@ class UnitTag:
 @dataclass
 class UnitTagTemplate:
     relative_path: list[RelativeType]
-    tags: list[TagType]
+    tags: list[Tag]
 
 
 class LogLevel(Enum):

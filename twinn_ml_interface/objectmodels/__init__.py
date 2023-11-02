@@ -14,11 +14,9 @@ from .hierarchy_classes import (
     ModelCategory,
     Node,
     RelativeType,
-    TagMapping,
-    TagType,
+    Tag,
     Unit,
     UnitTag,
-    UnitTagLiteral,
     UnitTagTemplate,
 )
 from .input_data_classes import InputData
@@ -51,11 +49,9 @@ __all__ = [
     "PredictionType",
     "PreprocessingMode",
     "RelativeType",
-    "TagMapping",
-    "TagType",
+    "Tag",
     "TrainWindowSizePriority",
     "Unit",
     "UnitTag",
-    "UnitTagLiteral",
     "UnitTagTemplate",
 ]
