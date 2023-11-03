@@ -34,9 +34,6 @@ class ModelInterfaceV4(AnnotationProtocol):
     model_category: ModelCategory
     # Number between (-inf, inf) indicating the model performance.
     performance_value: float
-    # The logger object passed to the initialize method. Will be retrieved by the infrastructure after
-    # training training and after predicting. The cache will be reset once the training is finished
-    logger: MetaDataLogger
     # Features used to train the model. If not supplied, equal to get_data_config_template().
     base_features: dict[DataLevels, list[UnitTag]] | None
     # This is only needed when get_target_tag_template returns UnitTagTemplate
@@ -103,17 +100,14 @@ class ModelInterfaceV4(AnnotationProtocol):
         return None
 
     @classmethod
-    def initialize(cls, logger: MetaDataLogger, configuration: Configuration) -> ModelInterfaceV4:
+    def initialize(cls, configuration: Configuration, logger: MetaDataLogger) -> ModelInterfaceV4:
         """Post init function to pass metadata logger and some config to the model.
 
         Args:
-            logger (MetaDataLogger): A MetaDataLogger object to write logs to MLflow later.
             configuration (Configuration): an API-like object to retrieve configuration.
+            logger (MetaDataLogger): A MetaDataLogger object to write logs to MLflow later.
         """
-        model = cls(configuration.target_name)
-        model.logger = logger
-        model.configuration = configuration
-        return model
+        ...
 
     def preprocess(self, input_data: InputData) -> InputData:
         """Preprocess input data before training.
