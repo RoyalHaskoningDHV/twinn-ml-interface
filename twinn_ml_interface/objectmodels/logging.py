@@ -1,5 +1,7 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from dataclasses import dataclass
+
+from typing import Any
 
 
 @dataclass
@@ -28,6 +30,9 @@ class MetaDataLogger:
     >>> md_logger.reset_cache()
     >>> print(md_logger.metrics)
     """
+    metrics: list[Metric]
+    params: dict[str, Any]
+    artifacts: list[dict[str, str | None]]
 
     def __init__(self):
         self.reset_cache()
@@ -56,7 +61,7 @@ class MetaDataLogger:
         Args:
             params (dict): Each dictionary entry denotes one parameter description: value pair.
         """
-        self.params = self.params | params
+        self.params |= params
 
     def log_artifact(self, artifact_path: str, label: str | None = None):
         """Log an artifact / file.
@@ -78,7 +83,7 @@ class MetaDataLogger:
 
     def reset_cache(self):
         """Clear all stored items in logger cache."""
-        self.created_on = datetime.now()
+        self.created_on = datetime.now(timezone.utc)
         self.metrics = []
         self.params = {}
         self.artifacts = []
