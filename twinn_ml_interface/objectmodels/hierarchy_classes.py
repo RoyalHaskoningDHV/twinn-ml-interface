@@ -91,18 +91,20 @@ class Tag:
         mapping (dict[str, str] | None): a mapping with unit_type as key and the corresponding tag as value.
             Defaults to None.
     """
+
     name: str | None
     mapping: dict[str, str] | None = None
-    
+
     def to_string(self, unit_type_code: str | None = None):
         if self.name:
             return self.name
-        
+
         if not self.mapping or not unit_type_code or unit_type_code not in self.mapping:
             msg = f"Couldn't find {unit_type_code=} in {self.mapping}"
             raise LookupError(msg)
-        
+
         return self.mapping[unit_type_code]
+
 
 @dataclass
 class UnitTag:

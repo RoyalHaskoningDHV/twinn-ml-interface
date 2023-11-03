@@ -27,8 +27,8 @@ class TestInputData(unittest.TestCase):
 
         self.data = pd.concat([sensor1, sensor2]).reset_index(drop=True)
 
-        self.test_df = pd.DataFrame(columns=["test"], index=pd.DatetimeIndex([]))
-        self.foo_df = pd.DataFrame(columns=["foo"], index=pd.DatetimeIndex([]))
+        self.test_df = pd.DataFrame(columns=["test"], index=pd.DatetimeIndex([], name="TIME"))
+        self.foo_df = pd.DataFrame(columns=["foo"], index=pd.DatetimeIndex([], name="TIME"))
 
     def test_allowed_inits(self):
         assert InputData() == {}
@@ -47,7 +47,7 @@ class TestInputData(unittest.TestCase):
 
     def test_set_checks(self):
         input_data = InputData(foo=self.foo_df)
-        input_data["new"] = pd.DataFrame(columns=["new"], index=pd.DatetimeIndex([]))
+        input_data["new"] = pd.DataFrame(columns=["new"], index=pd.DatetimeIndex([], name="TIME"))
 
         assert set(input_data.get_ids()) == {"foo", "new"}
 

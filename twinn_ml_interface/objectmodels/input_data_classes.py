@@ -30,7 +30,9 @@ class InputData(dict[str, pd.DataFrame]):
             msg = f"key {key} needs to be a column in the pandas.DataFrame"
             raise ValueError(msg)
         if not isinstance(value.index, pd.DatetimeIndex):
-            raise TypeError("The index from {key} dataframe is not of type pandas.DatetimeIndex")
+            raise TypeError(f"The index from {key} dataframe is not of type pandas.DatetimeIndex")
+        if not isinstance(value.index.name, str) or value.index.name != "TIME":
+            raise TypeError(f"The index from {key} dataframe should be named 'TIME'")
 
     def _check_valid_mapping(self, element: dict) -> None:
         for key, value in element.items():
