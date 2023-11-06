@@ -1,7 +1,8 @@
+from __future__ import annotations
 from dataclasses import dataclass
 from datetime import timedelta
 from enum import Enum, IntEnum, auto
-from typing import Callable
+from typing import Any, Callable
 
 from .model_flags import TrainWindowSizePriority
 
@@ -12,8 +13,8 @@ class ModelCategory(Enum):
     ACTUAL = "actual"
 
 
-class DataLevel(Enum):
-    SENSOR = "sensor"
+class DataLevel(str, Enum):
+    SENSOR = "actuals"
     DOWNSAMPLED_SENSOR = "downsampled_sensor"
     WEATHER = "weather"
     AVAILABILITY = "availability"
@@ -93,11 +94,43 @@ class UnitTag:
     unit: Unit
     tag: Tag
 
+    @classmethod
+    def from_string(cls, unit_tag: str, separator: str = ":") -> UnitTag:
+        unit, tag = unit_tag.split(separator)
+        return cls(Unit(unit, "UNKNOWN", True), Tag(tag))
+
     def __str__(self) -> str:
         return f"{self.unit.unit_code}:{self.tag.to_string(self.unit.unit_type_code)}"
 
     def __hash__(self):
         return hash(f"{self.unit}:{self.tag.name}")
+    
+    def get_data_filter(self, data_level: DataLevel) -> list[tuple[str, str, Any]]:
+        """Convert a feed to a parquet filter.
+
+        Args:
+            data_level (DataLevel): the data level.
+
+        Returns:
+            list[tuple[str, str, Any]]: a parquet filter.
+        """
+        if data_level not in [
+            DataLevel.AVAILABILITY,
+            DataLevel.DOWNSAMPLED_SENSOR,
+            DataLevel.SENSOR,
+            DataLevel.WEATHER,
+        ]:
+            msg = f"Get_data_filter not implemented for data type {data_level}"
+            raise NotImplementedError(msg)
+        if data_level == DataLevel.AVAILABILITY:
+            return [("ID", "=", self.unit)]
+        filters = [
+            ("UnitCode", "=", self.unit),
+            ("TagName", "=", self.tag),
+        ]
+        if data_level == DataLevel.WEATHER:
+            filters.append(("SlicedMinutes", "=", 0))
+        return filters
 
 
 @dataclass
