@@ -30,6 +30,7 @@ class MetaDataLogger:
     >>> md_logger.reset_cache()
     >>> print(md_logger.metrics)
     """
+
     metrics: list[Metric]
     params: dict[str, Any]
     artifacts: list[dict[str, str | None]]

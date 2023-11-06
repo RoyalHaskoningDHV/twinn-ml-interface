@@ -7,53 +7,35 @@ from .model_flags import TrainWindowSizePriority
 
 
 class ModelCategory(Enum):
-    anomaly = "anomaly"
-    prediction = "prediction"
-    actual = "actual"
+    ANOMALY = "anomaly"
+    PREDICTION = "prediction"
+    ACTUAL = "actual"
 
 
-class DataLevels(Enum):
-    sensor_data = "data"
-    downsampled_sensor_data = "downsampleddata"
-    weather = "weather"
-    availability = "availability"
-    predictions = "predictions"
-    anomalies = "anomalies"
-
-    # This is needed to check equality with copies of this class.
-    def __hash__(self):
-        return super().__hash__()
-
-    def __eq__(self, other):
-        if other.__class__.__name__ == self.__class__.__name__:
-            return self.value == other.value and self.name == other.name
-        return False
+class DataLevel(Enum):
+    SENSOR = "sensor"
+    DOWNSAMPLED_SENSOR = "downsampled_sensor"
+    WEATHER = "weather"
+    AVAILABILITY = "availability"
+    PREDICTION = "prediction"
+    ANOMALY = "anomaly"
 
 
-class AvailabilityLevels(IntEnum):
+class AvailabilityLevel(IntEnum):
     """Availability levels.
 
     Enum for different possibilities for unit availability
-    all: don't filter on unit availability
-    only_available: filter on unit availability (only return available data)
-    show_available: don't filter on unit availability but include availability tag
-    available_until_now: filter on availability and discard if the last datapoint is
+    ALL: don't filter on unit availability
+    FILTER: filter on unit availability (only return available data)
+    ADD_COLUMN: don't filter on unit availability but include availability tag
+    FILTER_UNTIL_NOW: filter on availability and discard if the last datapoint is
         unavailable or if the unavailable interval is in the future
     """
 
-    all = auto()
-    only_available = auto()
-    show_available = auto()
-    available_until_now = auto()
-
-    # This is needed to check equality with copies of this class.
-    def __hash__(self):
-        return super().__hash__()
-
-    def __eq__(self, other):
-        if other.__class__.__name__ == self.__class__.__name__:
-            return self.value == other.value and self.name == other.name
-        return False
+    ALL = auto()
+    FILTER = auto()
+    ADD_COLUMN = auto()
+    FILTER_UNTIL_NOW = auto()
 
 
 class RelativeType(Enum):
@@ -139,9 +121,9 @@ class LabelConfig:
 
 @dataclass
 class DataLabelConfigTemplate:
-    data_level: DataLevels
+    data_level: DataLevel
     unit_tag_templates: list[UnitTagTemplate]
-    availability_level: AvailabilityLevels
+    availability_level: AvailabilityLevel
     desired_tag_number: int | None = None
     label_config: LabelConfig | None = None
     max_lookback: timedelta | None = None

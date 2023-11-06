@@ -6,9 +6,9 @@ from .exceptions import (
 )
 
 from .hierarchy_classes import (
-    AvailabilityLevels,
+    AvailabilityLevel,
     DataLabelConfigTemplate,
-    DataLevels,
+    DataLevel,
     LabelConfig,
     LogLevel,
     ModelCategory,
@@ -34,11 +34,11 @@ __all__ = [
     "MessageType",
     "BaseError",
     "ModelException",
-    "AvailabilityLevels",
+    "AvailabilityLevel",
     "Configuration",
     "DataConfigTemplate",
     "DataLabelConfigTemplate",
-    "DataLevels",
+    "DataLevel",
     "LabelConfig",
     "LogLevel",
     "FeatureQualityOption",

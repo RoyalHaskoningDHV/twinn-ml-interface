@@ -14,7 +14,7 @@ from twinn_ml_interface.objectmodels import (
     Configuration,
     ModelCategory,
     DataLabelConfigTemplate,
-    DataLevels,
+    DataLevel,
     InputData,
     MetaDataLogger,
     PredictionType,
@@ -35,7 +35,7 @@ class ModelInterfaceV4(AnnotationProtocol):
     # Number between (-inf, inf) indicating the model performance.
     performance_value: float
     # Features used to train the model. If not supplied, equal to get_data_config_template().
-    base_features: dict[DataLevels, list[UnitTag]] | None
+    base_features: dict[DataLevel, list[UnitTag]] | None
     # This is only needed when get_target_tag_template returns UnitTagTemplate
     target: UnitTag | None = None
 
