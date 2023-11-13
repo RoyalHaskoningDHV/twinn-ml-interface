@@ -39,7 +39,7 @@ class Configuration(Protocol):
 
         Returns:
             list[Any] | None: the property of the UnitTag if it exists.
-        """        
+        """
         ...
 
     def get_units(self, unit_name: str, relative_path: list[RelativeType]) -> list[Unit] | None:

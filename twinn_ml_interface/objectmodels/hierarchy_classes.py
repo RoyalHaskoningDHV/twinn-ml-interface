@@ -104,7 +104,7 @@ class UnitTag:
 
     def __hash__(self):
         return hash(f"{self.unit}:{self.tag.name}")
-    
+
     def get_data_filter(self, data_level: DataLevel) -> list[tuple[str, str, Any]]:
         """Convert a feed to a parquet filter.
 

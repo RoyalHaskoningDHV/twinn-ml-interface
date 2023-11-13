@@ -18,9 +18,7 @@ from twinn_ml_interface.objectmodels import (
     InputData,
     MetaDataLogger,
     PredictionType,
-    RelativeType,
     UnitTagTemplate,
-    Tag,
     UnitTag,
 )
 
