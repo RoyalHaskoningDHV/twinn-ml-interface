@@ -4,7 +4,7 @@ import unittest
 
 from PIL import Image
 
-from twinn_ml_interface.objectmodels import MetaDataLogger
+from twinn_ml_interface.objectmodels import MetaDataLogger, Metric
 
 
 class TestMetaDataLogger(unittest.TestCase):
@@ -14,7 +14,7 @@ class TestMetaDataLogger(unittest.TestCase):
         self.test_image2 = Image.new("RGB", (100, 100), (0, 0, 0)).tobytes()
 
     def test_log_metrics(self):
-        metrics = {"m1": 0.7, "m2": 200}
+        metrics = [Metric("m1", 0.7), Metric("m2", 200)]
         self.md_logger.log_metrics(metrics)
         assert self.md_logger.metrics == metrics, "log_metrics failed"
 
@@ -48,6 +48,6 @@ class TestMetaDataLogger(unittest.TestCase):
         self.md_logger.params = {"p1": 1}
         self.md_logger.artifacts = [123]
         self.md_logger.reset_cache()
-        assert self.md_logger.metrics == {}
+        assert self.md_logger.metrics == []
         assert self.md_logger.params == {}
         assert self.md_logger.artifacts == []
