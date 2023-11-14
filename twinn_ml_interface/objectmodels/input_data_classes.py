@@ -4,6 +4,9 @@ from collections.abc import MutableMapping
 import pandas as pd
 
 
+REQUIRED_COLUMS_LONG_FORMAT = set(["TIME", "ID", "TYPE", "VALUE"])
+
+
 class InputData(dict[str, pd.DataFrame]):
     def __init__(self, mapping: dict[str, pd.DataFrame] | None = None, **kwargs) -> None:
         if mapping:
@@ -101,6 +104,8 @@ class InputData(dict[str, pd.DataFrame]):
     @classmethod
     def from_long_df(cls, df: pd.DataFrame) -> "InputData":
         data_chunks = {}
+        if missing_cols := REQUIRED_COLUMS_LONG_FORMAT - set(df.columns):
+            raise KeyError(f"DataFrame does not contain required columns {missing_cols}")
         for name, chunk in df.groupby(["ID", "TYPE"]):
             new_name = ":".join(name)
             chunk.set_index("TIME", inplace=True)

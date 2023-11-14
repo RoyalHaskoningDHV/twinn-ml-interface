@@ -20,7 +20,7 @@ from .hierarchy_classes import (
     UnitTagTemplate,
 )
 from .input_data_classes import InputData
-from .logging import MetaDataLogger
+from .logging import MetaDataLogger, Metric
 from .model_flags import (
     FeatureQualityOption,
     PredictionType,
@@ -45,6 +45,7 @@ __all__ = [
     "InputData",
     "ModelCategory",
     "MetaDataLogger",
+    "Metric",
     "Node",
     "PredictionType",
     "PreprocessingMode",
