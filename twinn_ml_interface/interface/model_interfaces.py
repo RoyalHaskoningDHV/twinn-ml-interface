@@ -18,9 +18,7 @@ from twinn_ml_interface.objectmodels import (
     InputData,
     MetaDataLogger,
     PredictionType,
-    RelativeType,
     UnitTagTemplate,
-    Tag,
     UnitTag,
 )
 
@@ -40,8 +38,8 @@ class ModelInterfaceV4(AnnotationProtocol):
     target: UnitTag | None = None
 
     @staticmethod
-    def get_target_tag_template() -> UnitTagTemplate | UnitTag:
-        """Get the name of the target tag to train the model.
+    def get_target_template() -> UnitTagTemplate | UnitTag:
+        """Get the UnitTag that will be the target of the model.
 
         Returns:
             UnitTagTemplate | UnitTag: The unit tag of the model target,
@@ -60,33 +58,14 @@ class ModelInterfaceV4(AnnotationProtocol):
         ...
 
     @staticmethod
-    def get_result_tag_template() -> UnitTagTemplate | UnitTag:
-        """The tag to post the predictions/results on.
+    def get_result_template() -> UnitTagTemplate | UnitTag:
+        """The UnitTag to post the predictions/results on.
 
         Returns:
             UnitTagTemplate, UnitTag: The unit tag of the model's output, either as
                 template or as literal.
         """
         ...
-
-    @staticmethod
-    def get_unit_properties_template() -> list[Tag]:
-        """Unit properties to get from the units used in the model.
-
-        Returns:
-            list[Tag]: The tags to request.
-        """
-        return []
-
-    @staticmethod
-    def get_unit_hierarchy_template() -> dict[str, list[RelativeType]]:
-        """Request some units from the hierarchy in a dictionary.
-
-        Returns:
-            dict[str, list[RelativeType]]: An identifier for the units to get, and their
-                relative path from the target unit.
-        """
-        return {}
 
     @staticmethod
     def get_train_window_finder_config_template() -> list[DataLabelConfigTemplate] | None:
