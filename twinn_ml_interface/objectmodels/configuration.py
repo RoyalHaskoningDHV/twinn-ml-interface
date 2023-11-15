@@ -31,11 +31,11 @@ class Configuration(Protocol):
         """Get and cache the tenant_config."""
         ...
 
-    def get_unit_tag_property(self, unit_tag: str) -> list[Any] | None:
-        """Retrieve the property of a certain unit tag.
+    def get_unit_properties(self, unit_name: str) -> list[Any] | None:
+        """Retrieve the property of a certain unit.
 
         Args:
-            unit_tag (str): a UnitTag in str form separated by : (semi-colon).
+            unit_name (str): name of the unit to get properties for.
 
         Returns:
             list[Any] | None: the property of the UnitTag if it exists.
