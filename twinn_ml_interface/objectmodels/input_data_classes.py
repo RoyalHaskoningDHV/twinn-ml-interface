@@ -3,8 +3,7 @@ from collections.abc import MutableMapping
 
 import pandas as pd
 
-
-REQUIRED_COLUMS_LONG_FORMAT = set(["TIME", "ID", "TYPE", "VALUE"])
+REQUIRED_COLUMS_LONG_FORMAT = {"TIME", "ID", "TYPE", "VALUE"}
 
 
 class InputData(dict[str, pd.DataFrame]):

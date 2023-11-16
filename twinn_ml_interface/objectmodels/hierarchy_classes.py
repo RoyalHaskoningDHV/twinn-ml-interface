@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from dataclasses import dataclass
 from datetime import timedelta
 from enum import Enum, IntEnum, auto
@@ -71,8 +72,8 @@ class Tag:
 
     Args:
         name (str | None): name of the tag if literal, None if mapping is used.
-        mapping (dict[str, str] | None): a mapping with unit_type as key and the corresponding tag as value.
-            Defaults to None.
+        mapping (dict[str, str] | None): a mapping with unit_type as key and
+            the corresponding tag as value. Defaults to None.
     """
 
     name: str | None

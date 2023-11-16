@@ -1,10 +1,10 @@
+from .configuration import Configuration
 from .exceptions import (
-    construct_model_exception_text,
-    MessageType,
     BaseError,
+    MessageType,
     ModelException,
+    construct_model_exception_text,
 )
-
 from .hierarchy_classes import (
     AvailabilityLevel,
     DataLabelConfigTemplate,
@@ -27,7 +27,6 @@ from .model_flags import (
     PreprocessingMode,
     TrainWindowSizePriority,
 )
-from .configuration import Configuration
 
 __all__ = [
     "construct_model_exception_text",

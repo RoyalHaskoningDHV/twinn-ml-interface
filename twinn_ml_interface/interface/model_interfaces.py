@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from os import PathLike
 from typing import (
     Any,
@@ -7,19 +8,18 @@ from typing import (
 )
 
 import pandas as pd
-
 from annotation_protocol import AnnotationProtocol
 
 from twinn_ml_interface.objectmodels import (
     Configuration,
-    ModelCategory,
     DataLabelConfigTemplate,
     DataLevel,
     InputData,
     MetaDataLogger,
+    ModelCategory,
     PredictionType,
-    UnitTagTemplate,
     UnitTag,
+    UnitTagTemplate,
 )
 
 Logs = dict[str, Any]
