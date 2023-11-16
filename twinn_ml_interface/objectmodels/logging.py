@@ -33,7 +33,7 @@ class MetaDataLogger:
 
     metrics: list[Metric]
     params: dict[str, Any]
-    artifacts: list[str]
+    artifacts: list[dict[str | PathLike, str | None]]
 
     def __init__(self):
         self.reset_cache()
@@ -64,21 +64,23 @@ class MetaDataLogger:
         """
         self.params |= params
 
-    def log_artifact(self, local_dir: str | PathLike):
+    def log_artifact(self, local_dir: str | PathLike, label: str | None = None):
         """Log an artifact / file.
 
         Args:
             local_dir (str | PathLike): Path to file or folder to log
+            label(str | None): Label of how to group this artifact with others. Defaults to None.
         """
-        self.artifacts.append(local_dir)
+        self.artifacts.append({local_dir: label})
 
-    def log_artifacts(self, local_dirs: list[str | PathLike]):
+    def log_artifacts(self, artifacts: list[dict[str | PathLike, str | None]]):
         """Log multiple artifacts / files.
 
         Args:
-            local_dirs (list[str | PathLike]): List of paths of folders / files to log
+            artifacts (list[dict[str, str | None]]): List of dictionaries with paths of
+                artifacts / files to log as keys and grouping labels as values (can be None)
         """
-        self.artifacts.extend(local_dirs)
+        self.artifacts.extend(artifacts)
 
     def reset_cache(self):
         """Clear all stored items in logger cache."""

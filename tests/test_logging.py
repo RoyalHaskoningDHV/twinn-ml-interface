@@ -24,9 +24,10 @@ class TestMetaDataLogger(unittest.TestCase):
         assert self.md_logger.params == params, "log_params failed"
 
     def test_log_artifact(self):
+        label = "tmpfile"
         with tempfile.TemporaryFile() as tmpfile:
-            self.md_logger.log_artifact(tmpfile)
-            assert self.md_logger.artifacts[-1] == tmpfile, "log_artifact failed"
+            self.md_logger.log_artifact(tmpfile, label)
+            assert self.md_logger.artifacts[-1] == {tmpfile: label}, "log_artifact failed"
 
     def test_log_artifacts(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -36,10 +37,10 @@ class TestMetaDataLogger(unittest.TestCase):
                 f.write(self.test_image)
             with open(tmpfile2, "wb") as f:
                 f.write(self.test_image2)
-            self.md_logger.log_artifacts([tmpfile1, tmpfile2])
+            self.md_logger.log_artifacts([{tmpfile1: None}, {tmpfile2: None}])
             assert self.md_logger.artifacts == [
-                tmpfile1,
-                tmpfile2,
+                {tmpfile1: None},
+                {tmpfile2: None},
             ], "log_artifacts failed"
 
     def test_reset_cache(self):
