@@ -78,6 +78,14 @@ class Tag:
     name: str | None
     mapping: dict[str, str] | None = None
 
+    def __post_init__(self):
+        if (self.name is not None and self.mapping is not None) or (
+            self.name is None and self.mapping is None
+        ):
+            raise ValueError(
+                "Exactly one of name or mapping must be set, but not both or neither."
+            )
+
     def to_string(self, unit_type_code: str | None = None):
         if self.name:
             return self.name
@@ -87,6 +95,11 @@ class Tag:
             raise LookupError(msg)
 
         return self.mapping[unit_type_code]
+
+    def __hash__(self) -> int:
+        if self.name is not None:
+            return hash(self.name)
+        return hash(frozenset(self.mapping.items()))
 
 
 @dataclass
