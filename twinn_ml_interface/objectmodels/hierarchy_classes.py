@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from dataclasses import dataclass
 from datetime import timedelta
 from enum import Enum, IntEnum, auto
@@ -71,12 +72,20 @@ class Tag:
 
     Args:
         name (str | None): name of the tag if literal, None if mapping is used.
-        mapping (dict[str, str] | None): a mapping with unit_type as key and the corresponding tag as value.
-            Defaults to None.
+        mapping (dict[str, str] | None): a mapping with unit_type as key and
+            the corresponding tag as value. Defaults to None.
     """
 
     name: str | None
     mapping: dict[str, str] | None = None
+
+    def __post_init__(self):
+        if (self.name is not None and self.mapping is not None) or (
+            self.name is None and self.mapping is None
+        ):
+            raise ValueError(
+                "Exactly one of name or mapping must be set, but not both or neither."
+            )
 
     def to_string(self, unit_type_code: str | None = None):
         if self.name:
@@ -87,6 +96,11 @@ class Tag:
             raise LookupError(msg)
 
         return self.mapping[unit_type_code]
+
+    def __hash__(self) -> int:
+        if self.name is not None:
+            return hash(self.name)
+        return hash(frozenset(self.mapping.items()))
 
 
 @dataclass

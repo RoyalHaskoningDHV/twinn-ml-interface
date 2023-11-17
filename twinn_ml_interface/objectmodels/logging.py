@@ -1,6 +1,6 @@
-from datetime import datetime, timezone
 from dataclasses import dataclass
-
+from datetime import datetime, timezone
+from os import PathLike
 from typing import Any
 
 
@@ -33,7 +33,7 @@ class MetaDataLogger:
 
     metrics: list[Metric]
     params: dict[str, Any]
-    artifacts: list[dict[str, str | None]]
+    artifacts: list[dict[str | PathLike, str | None]]
 
     def __init__(self):
         self.reset_cache()
@@ -64,16 +64,16 @@ class MetaDataLogger:
         """
         self.params |= params
 
-    def log_artifact(self, artifact_path: str, label: str | None = None):
+    def log_artifacts_in_dir(self, local_dir: PathLike, label: str | None = None):
         """Log an artifact / file.
 
         Args:
-            artifact_path (str): Path to file to log
+            local_dir (PathLike): Path to file or folder to log
             label(str | None): Label of how to group this artifact with others. Defaults to None.
         """
-        self.artifacts.append({artifact_path: label})
+        self.artifacts.append({local_dir: label})
 
-    def log_artifacts(self, artifacts: list[dict[str, str | None]]):
+    def log_artifacts_in_multiple_dirs(self, artifacts: list[dict[PathLike, str | None]]):
         """Log multiple artifacts / files.
 
         Args:

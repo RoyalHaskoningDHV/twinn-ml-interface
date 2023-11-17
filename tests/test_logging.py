@@ -1,6 +1,6 @@
-from pathlib import Path
 import tempfile
 import unittest
+from pathlib import Path
 
 from PIL import Image
 
@@ -26,10 +26,10 @@ class TestMetaDataLogger(unittest.TestCase):
     def test_log_artifact(self):
         label = "tmpfile"
         with tempfile.TemporaryFile() as tmpfile:
-            self.md_logger.log_artifact(tmpfile, label)
+            self.md_logger.log_artifacts_in_dir(tmpfile, label)
             assert self.md_logger.artifacts[-1] == {tmpfile: label}, "log_artifact failed"
 
-    def test_log_artifacts(self):
+    def test_log_artifacts_in_multiple_dirs(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmpfile1 = str(Path(tmpdir) / "tmpfile1")
             tmpfile2 = str(Path(tmpdir) / "tmpfile2")
@@ -37,16 +37,16 @@ class TestMetaDataLogger(unittest.TestCase):
                 f.write(self.test_image)
             with open(tmpfile2, "wb") as f:
                 f.write(self.test_image2)
-            self.md_logger.log_artifacts([{tmpfile1: None}, {tmpfile2: None}])
+            self.md_logger.log_artifacts_in_multiple_dirs([{tmpfile1: None}, {tmpfile2: None}])
             assert self.md_logger.artifacts == [
                 {tmpfile1: None},
                 {tmpfile2: None},
             ], "log_artifacts failed"
 
     def test_reset_cache(self):
-        self.md_logger.metrics = {"m1": 0}
+        self.md_logger.metrics = [Metric("m1", 0)]
         self.md_logger.params = {"p1": 1}
-        self.md_logger.artifacts = [123]
+        self.md_logger.artifacts = [{"my_folder/": None}]
         self.md_logger.reset_cache()
         assert self.md_logger.metrics == []
         assert self.md_logger.params == {}
