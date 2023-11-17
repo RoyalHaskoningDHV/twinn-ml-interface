@@ -94,7 +94,7 @@ class MetaDataLogger:
         """
         self.artifacts.extend(artifacts)
 
-    def is_metric_in_logger(self, metric_name: str, metric_value: float | None = None) -> bool:
+    def is_metric_in_metrics(self, metric_name: str, metric_value: float | None = None) -> bool:
         """Check is a certain metric is inside the logger
 
         Args:
@@ -112,7 +112,7 @@ class MetaDataLogger:
                 return True
         return False
 
-    def get_metric_value_from_logger(self, metric_name: str) -> float | None:
+    def get_metric_value(self, metric_name: str) -> float | None:
         """Get the metric value from the logger if it exists, else None
 
         Args:
@@ -126,7 +126,7 @@ class MetaDataLogger:
                 return element.value
         return None
 
-    def get_artifact_names_from_logger(self) -> set[str]:
+    def get_artifact_names(self) -> set[str]:
         """Get get all artifact names that have been stored in the logger
 
         Returns:

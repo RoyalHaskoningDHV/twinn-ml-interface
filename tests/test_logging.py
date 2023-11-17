@@ -23,18 +23,18 @@ class TestMetaDataLogger(unittest.TestCase):
         self.md_logger.log_params(params)
         assert self.md_logger.params == params, "log_params failed"
 
-    def test_is_metric_in_logger(self):
+    def test_is_metric_in_metrics(self):
         metrics = [Metric("m1", 0.7), Metric("m2", 200)]
         self.md_logger.log_metrics(metrics)
-        assert self.md_logger.is_metric_in_logger("m1")
-        assert not self.md_logger.is_metric_in_logger("m9")
-        assert self.md_logger.is_metric_in_logger("m1", 0.7)
-        assert not self.md_logger.is_metric_in_logger("m1", 0.8)
+        assert self.md_logger.is_metric_in_metrics("m1")
+        assert not self.md_logger.is_metric_in_metrics("m9")
+        assert self.md_logger.is_metric_in_metrics("m1", 0.7)
+        assert not self.md_logger.is_metric_in_metrics("m1", 0.8)
 
-    def test_get_metric_value_from_logger(self):
+    def test_get_metric_value(self):
         metrics = [Metric("m1", 0.7), Metric("m2", 200)]
         self.md_logger.log_metrics(metrics)
-        assert self.md_logger.get_metric_value_from_logger("m1") == 0.7
+        assert self.md_logger.get_metric_value("m1") == 0.7
 
     def test_db_logs(self):
         db_logs = {"scores_custom_metric": [1, 2, 3], "important_parameter": 200}
@@ -61,14 +61,14 @@ class TestMetaDataLogger(unittest.TestCase):
                 {tmpfile2: None},
             ], "log_artifacts failed"
 
-    def test_get_artifact_names_from_logger(self):
+    def test_get_artifact_names(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmpfile = str(Path(tmpdir) / "tmpfile1")
             with open(tmpfile, "wb") as f:
                 f.write(self.test_image)
             self.md_logger.log_artifacts_in_dir(tmpfile)
 
-            assert self.md_logger.get_artifact_names_from_logger() == {"tmpfile1"}
+            assert self.md_logger.get_artifact_names() == {"tmpfile1"}
 
     def test_reset_cache(self):
         self.md_logger.metrics = [Metric("m1", 0)]
