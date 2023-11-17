@@ -64,16 +64,16 @@ class MetaDataLogger:
         """
         self.params |= params
 
-    def log_artifact(self, local_dir: str | PathLike, label: str | None = None):
+    def log_artifacts_in_dir(self, local_dir: PathLike, label: str | None = None):
         """Log an artifact / file.
 
         Args:
-            local_dir (str | PathLike): Path to file or folder to log
+            local_dir (PathLike): Path to file or folder to log
             label(str | None): Label of how to group this artifact with others. Defaults to None.
         """
         self.artifacts.append({local_dir: label})
 
-    def log_artifacts(self, artifacts: list[dict[str | PathLike, str | None]]):
+    def log_artifacts_in_multiple_dirs(self, artifacts: list[dict[PathLike, str | None]]):
         """Log multiple artifacts / files.
 
         Args:
