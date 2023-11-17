@@ -152,7 +152,7 @@ class ModelInterfaceV4(AnnotationProtocol):
         return None
 
     @classmethod
-    def load(cls, foldername: PathLike, prefix: str) -> Callable:
+    def load(cls, foldername: PathLike, filename: str) -> Callable:
         """
         Reads the following files:
         * prefix.pkl
@@ -162,7 +162,7 @@ class ModelInterfaceV4(AnnotationProtocol):
 
         Args:
             foldername (PathLike): configurable folder name
-            prefix (str): configurable prefix of the file
+            filename (str): name of the file
 
         Returns:
             Model class with everything (except data) contained within to call the
