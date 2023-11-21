@@ -17,16 +17,6 @@ class Configuration(Protocol):
         ...
 
     @cached_property
-    def unit_properties(self) -> dict[Tag, dict[str, Any]]:
-        """Get and cache the unit_properties."""
-        ...
-
-    @cached_property
-    def unit_hierarchies(self) -> dict[str, list[str]]:
-        """Get and cache the unit_hierarchies."""
-        ...
-
-    @cached_property
     def tenant_config(self) -> dict[str, Any]:
         """Get and cache the tenant_config."""
         ...
