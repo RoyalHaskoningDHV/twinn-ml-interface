@@ -28,6 +28,8 @@ from .model_flags import (
     TrainWindowSizePriority,
 )
 
+WindowViability = dict[PredictionType, tuple[bool, str | None]]
+
 __all__ = [
     "construct_model_exception_text",
     "MessageType",
@@ -54,4 +56,5 @@ __all__ = [
     "Unit",
     "UnitTag",
     "UnitTagTemplate",
+    "WindowViability",
 ]
