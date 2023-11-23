@@ -44,6 +44,13 @@ class InputData(dict[str, pd.DataFrame]):
         self._validate_element(key=key, value=value)
         super().__setitem__(key, value)
 
+    def __bool__(self) -> bool:
+        if not self.keys():
+            return False
+        if all(df.empty for df in self.values()):
+            return False
+        return True
+
     def __eq__(self, __value: object) -> bool:
         if not isinstance(__value, MutableMapping):
             raise TypeError("A dict-like object is needed to compare")
