@@ -17,28 +17,18 @@ class Configuration(Protocol):
         ...
 
     @cached_property
-    def unit_properties(self) -> dict[Tag, dict[str, Any]]:
-        """Get and cache the unit_properties."""
-        ...
-
-    @cached_property
-    def unit_hierarchies(self) -> dict[str, list[str]]:
-        """Get and cache the unit_hierarchies."""
-        ...
-
-    @cached_property
     def tenant_config(self) -> dict[str, Any]:
         """Get and cache the tenant_config."""
         ...
 
-    def get_unit_properties(self, unit_name: str) -> list[Any] | None:
+    def get_unit_properties(self, unit_name: str) -> dict[str, Any] | None:
         """Retrieve the property of a certain unit.
 
         Args:
             unit_name (str): name of the unit to get properties for.
 
         Returns:
-            list[Any] | None: the property of the UnitTag if it exists.
+            dict[str, Any] | None: the property of the UnitTag if it exists.
         """
         ...
 
