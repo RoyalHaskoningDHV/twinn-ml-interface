@@ -185,5 +185,5 @@ class DataLabelConfigTemplate:
 @dataclass
 class Node:
     val: Unit
-    parent = None
-    children: list | None = None
+    parent: Node | None = None
+    children: list[Node] | None = None
