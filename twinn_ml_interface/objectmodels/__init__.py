@@ -5,7 +5,7 @@ from .exceptions import (
     ModelException,
     construct_model_exception_text,
 )
-from .hierarchy_classes import (
+from .hierarchy import (
     AvailabilityLevel,
     DataLabelConfigTemplate,
     DataLevel,
@@ -19,7 +19,7 @@ from .hierarchy_classes import (
     UnitTag,
     UnitTagTemplate,
 )
-from .input_data_classes import InputData
+from .input_data import InputData
 from .logging import MetaDataLogger, Metric
 from .model_flags import (
     FeatureQualityOption,
@@ -27,6 +27,8 @@ from .model_flags import (
     PreprocessingMode,
     TrainWindowSizePriority,
 )
+
+WindowViability = dict[PredictionType, tuple[bool, str | None]]
 
 __all__ = [
     "construct_model_exception_text",
@@ -54,4 +56,5 @@ __all__ = [
     "Unit",
     "UnitTag",
     "UnitTagTemplate",
+    "WindowViability",
 ]
