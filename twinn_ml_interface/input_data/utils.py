@@ -13,7 +13,7 @@ def concat(*data_objects: InputData) -> InputData:
             for feature in data.unit_tags.intersection(result.unit_tags)
         }
         result |= {
-            feature: result[feature] for feature in data.unit_tags.difference(result.unit_tags)
+            feature: data[feature] for feature in data.unit_tags.difference(result.unit_tags)
         }
     return result
 
