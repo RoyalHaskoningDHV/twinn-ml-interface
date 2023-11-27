@@ -1,7 +1,7 @@
 from functools import cached_property
 from typing import Any, Protocol
 
-from .hierarchy import RelativeType, Tag, Unit, UnitTag, UnitTagTemplate
+from .hierarchy import RelativeType, Unit, UnitTag, UnitTagTemplate
 
 
 class Configuration(Protocol):

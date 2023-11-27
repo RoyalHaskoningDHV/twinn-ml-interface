@@ -19,7 +19,6 @@ from .hierarchy import (
     UnitTag,
     UnitTagTemplate,
 )
-from .input_data import InputData
 from .logging import MetaDataLogger, Metric
 from .model_flags import (
     FeatureQualityOption,
@@ -43,7 +42,6 @@ __all__ = [
     "LabelConfig",
     "LogLevel",
     "FeatureQualityOption",
-    "InputData",
     "ModelCategory",
     "MetaDataLogger",
     "Metric",

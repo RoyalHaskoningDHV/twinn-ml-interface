@@ -10,11 +10,11 @@ from typing import (
 import pandas as pd
 from annotation_protocol import AnnotationProtocol
 
+from twinn_ml_interface.input_data import InputData
 from twinn_ml_interface.objectmodels import (
     Configuration,
     DataLabelConfigTemplate,
     DataLevel,
-    InputData,
     MetaDataLogger,
     ModelCategory,
     UnitTag,

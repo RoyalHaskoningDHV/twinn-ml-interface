@@ -80,9 +80,7 @@ class Tag:
     mapping: dict[str, str] | None = None
 
     def __post_init__(self):
-        if (self.name is not None and self.mapping) or (
-            self.name is None and not self.mapping
-        ):
+        if (self.name is not None and self.mapping) or (self.name is None and not self.mapping):
             raise ValueError(
                 "Exactly one of name or mapping must be set, but not both or neither."
             )

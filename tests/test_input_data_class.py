@@ -2,7 +2,7 @@ import unittest
 
 import pandas as pd
 
-from twinn_ml_interface.objectmodels import InputData
+from twinn_ml_interface.input_data import InputData
 
 
 class TestInputData(unittest.TestCase):
@@ -49,16 +49,16 @@ class TestInputData(unittest.TestCase):
         input_data = InputData(foo=self.foo_df)
         input_data["new"] = pd.DataFrame(columns=["new"], index=pd.DatetimeIndex([], name="TIME"))
 
-        assert set(input_data.get_ids()) == {"foo", "new"}
+        assert set(input_data.unit_tags) == {"foo", "new"}
 
     def test_classmethod(self):
         input_data = InputData.from_long_df(self.data)
 
-        assert set(input_data.get_ids()) == {"SENSOR1:TAG", "SENSOR2:TAG"}
+        assert set(input_data.unit_tags) == {"SENSOR1:TAG", "SENSOR2:TAG"}
 
     def test_min_time(self):
         input_data = InputData.from_long_df(self.data)
-        assert input_data.get_min_time() == pd.Timestamp("1970-01-01 00:00:00")
+        assert input_data.min_datetime == pd.Timestamp("1970-01-01 00:00:00")
 
     def test_to_log_format(self):
         input_data = InputData.from_long_df(self.data)

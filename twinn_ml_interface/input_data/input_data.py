@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 from collections.abc import MutableMapping
 
@@ -21,7 +23,8 @@ class InputData(dict[str, pd.DataFrame]):
             self._check_valid_mapping(kwargs)
         super().__init__(_mapping, **kwargs)
 
-    def _validate_element(self, key, value) -> None:
+    @staticmethod
+    def _validate_element(key: str, value: pd.DataFrame) -> None:
         if not isinstance(key, str):
             msg = "Keys must be of type str"
             raise TypeError(msg)
@@ -40,16 +43,14 @@ class InputData(dict[str, pd.DataFrame]):
         for key, value in element.items():
             self._validate_element(key=key, value=value)
 
-    def __setitem__(self, key, value) -> None:
+    def __setitem__(self, key: str, value: pd.DataFrame) -> None:
         self._validate_element(key=key, value=value)
         super().__setitem__(key, value)
 
     def __bool__(self) -> bool:
         if not self.keys():
             return False
-        if all(df.empty for df in self.values()):
-            return False
-        return True
+        return not all(df.empty for df in self.values())
 
     def __eq__(self, __value: object) -> bool:
         if not isinstance(__value, MutableMapping):
@@ -63,23 +64,26 @@ class InputData(dict[str, pd.DataFrame]):
                 return False
         return True
 
-    def get_unit_codes(self) -> list[str]:
-        """Get a list of all the unit codes in the dictionary.
+    @property
+    def unit_codes(self) -> set[str]:
+        """Get a set of all the unit_codes in the dictionary.
 
         Returns:
-            list[str]: the unit codes
+            set[str]: the unit codes
         """
-        return [key.split(":")[0] for key in self]
+        return {key.split(":")[0] for key in self}
 
-    def get_ids(self) -> list[str]:
-        """Get a list of all the ids (unit code:tag) in the dictionary.
+    @property
+    def unit_tags(self) -> set[str]:
+        """Get a set of all the unit_tags (unit code:tag) in the dictionary.
 
         Returns:
-            list[str]: the ids
+            set[str]: the ids
         """
-        return list(self)
+        return set(self)
 
-    def get_max_time(self) -> pd.Timestamp:
+    @property
+    def max_datetime(self) -> pd.Timestamp:
         """Get the max time of all timestamps.
 
         Returns:
@@ -87,7 +91,8 @@ class InputData(dict[str, pd.DataFrame]):
         """
         return max([v.index.max() for _, v in self.items()])
 
-    def get_min_time(self) -> pd.Timestamp:
+    @property
+    def min_datetime(self) -> pd.Timestamp:
         """Get the min time of all timestamps.
 
         Returns:
@@ -108,10 +113,11 @@ class InputData(dict[str, pd.DataFrame]):
         return pd.concat(data).reset_index(drop=True)
 
     @classmethod
-    def from_long_df(cls, df: pd.DataFrame) -> "InputData":
-        data_chunks = {}
+    def from_long_df(cls, df: pd.DataFrame) -> InputData:
         if missing_cols := REQUIRED_COLUMS_LONG_FORMAT - set(df.columns):
             raise KeyError(f"DataFrame does not contain required columns {missing_cols}")
+
+        data_chunks = {}
         for name, chunk in df.groupby(["ID", "TYPE"]):
             new_name = ":".join(name)
             chunk.set_index("TIME", inplace=True)
