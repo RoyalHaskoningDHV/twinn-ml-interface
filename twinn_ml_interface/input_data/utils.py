@@ -9,9 +9,12 @@ def concat(*data_objects: InputData) -> InputData:
     result = InputData()
     for data in data_objects:
         result |= {
-            feature: pd.concat(result[feature], df) for feature, df in data.features.intersection(result.features)
+            feature: pd.concat(result[feature], data[feature]).reset_index(drop=True)
+            for feature in data.unit_tags.intersection(result.unit_tags)
         }
-        result |= {feature: result["feature"] for feature in data.features.difference(result.features)}
+        result |= {
+            feature: result["feature"] for feature in data.unit_tags.difference(result.unit_tags)
+        }
     return result
 
 
