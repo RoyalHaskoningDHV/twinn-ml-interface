@@ -9,7 +9,7 @@ def concat(*data_objects: InputData) -> InputData:
     result = InputData()
     for data in data_objects:
         result |= {
-            feature: pd.concat([result[feature], data[feature]]).reset_index(drop=True)
+            feature: pd.concat([result[feature], data[feature]], sort=True)
             for feature in data.unit_tags.intersection(result.unit_tags)
         }
         result |= {
