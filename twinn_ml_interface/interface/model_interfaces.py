@@ -30,8 +30,6 @@ class ModelInterfaceV4(AnnotationProtocol):
     model_type_name: str
     # Model category is based on the output of the model.
     model_category: ModelCategory
-    # Number between (-inf, inf) indicating the model performance.
-    performance_value: float
     # Features used to train the model. If not supplied, equal to get_data_config_template().
     base_features: dict[DataLevel, list[UnitTag]] | None
     # This is only needed when get_target_tag_template returns UnitTagTemplate
@@ -116,14 +114,14 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         return True, "Input data is valid."
 
-    def train(self, input_data: InputData, **kwargs) -> None:
+    def train(self, input_data: InputData, **kwargs) -> float:
         """Train a model.
 
         Args:
             input_data (InputData): Preprocessed and validated training data.
 
         Returns:
-            dict[str, Any] | None: Optionally some logs collected during training.
+            float: Number between (-inf, inf) indicating the model performance
         """
         ...
 
