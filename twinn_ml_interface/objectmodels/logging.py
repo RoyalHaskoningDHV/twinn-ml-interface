@@ -147,5 +147,5 @@ class MetaDataLogger:
         self.created_on = datetime.now(timezone.utc)
         self.metrics = []
         self.params = {}
-        self.artifacts = []
+        self.artifacts = {}
         self.db_logs = {}
