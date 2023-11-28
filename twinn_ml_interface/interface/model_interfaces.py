@@ -114,7 +114,7 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         return True, "Input data is valid."
 
-    def train(self, input_data: InputData, **kwargs) -> float:
+    def train(self, input_data: InputData, **kwargs) -> tuple[float, Any]:
         """Train a model.
 
         Args:
@@ -122,10 +122,12 @@ class ModelInterfaceV4(AnnotationProtocol):
 
         Returns:
             float: Number between (-inf, inf) indicating the model performance
+            Any: Any other object that can be used for testing. This object will be ignored
+                by the infrastructure
         """
         ...
 
-    def predict(self, input_data: InputData, **kwargs) -> list[pd.DataFrame]:
+    def predict(self, input_data: InputData, **kwargs) -> tuple[list[pd.DataFrame], Any]:
         """Run a prediction with a trained model.
 
         Args:
@@ -133,6 +135,8 @@ class ModelInterfaceV4(AnnotationProtocol):
 
         Returns:
             list[pd.DataFrame]: List of dataframes with predictions
+            Any: Any other object that can be used for testing. This object will be ignored
+                by the infrastructure
         """
         ...
 
