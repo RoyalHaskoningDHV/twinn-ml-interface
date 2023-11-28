@@ -34,7 +34,7 @@ class MetaDataLogger:
 
     metrics: list[Metric]
     params: dict[str, str]
-    artifacts: list[dict[str | PathLike, str | None]]
+    artifacts: dict[str | PathLike, str | None]
     db_logs: dict[str, Hashable]
 
     def __init__(self):
@@ -83,16 +83,16 @@ class MetaDataLogger:
             local_dir (PathLike): Path to file or folder to log
             label(str | None): Label of how to group this artifact with others. Defaults to None.
         """
-        self.artifacts.append({local_dir: label})
+        self.artifacts[local_dir] = label
 
-    def log_artifacts_in_multiple_dirs(self, artifacts: list[dict[PathLike, str | None]]):
+    def log_artifacts_in_multiple_dirs(self, artifacts: dict[PathLike, str | None]):
         """Log multiple artifacts / files.
 
         Args:
-            artifacts (list[dict[str, str | None]]): List of dictionaries with paths of
+            artifacts (dict[str, str | None]): List of dictionaries with paths of
                 artifacts / files to log as keys and grouping labels as values (can be None)
         """
-        self.artifacts.extend(artifacts)
+        self.artifacts |= artifacts
 
     def is_metric_in_metrics(self, metric_name: str, metric_value: float | None = None) -> bool:
         """Check is a certain metric is inside the logger
