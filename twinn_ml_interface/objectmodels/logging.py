@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from os import PathLike, listdir
 from os.path import isdir, isfile
-from typing import Hashable
 
 
 @dataclass
@@ -33,9 +32,9 @@ class MetaDataLogger:
     """
 
     metrics: list[Metric]
-    params: dict[str, Hashable]
+    params: dict[str, str]
     artifacts: list[dict[str | PathLike, str | None]]
-    db_logs: dict[str, Hashable]
+    db_logs: dict[str, str]
 
     def __init__(self):
         self.reset_cache()
@@ -58,21 +57,21 @@ class MetaDataLogger:
         """
         self.metrics += metrics
 
-    def log_params(self, params: dict[str, Hashable]):
+    def log_params(self, params: dict[str, str]):
         """Log multiple parameters. If parameter was logged in same run before, it is overwritten.
 
         Args:
-            params (dict[str, Hashable]): Each dictionary entry denotes one parameter
+            params (dict[str, str]): Each dictionary entry denotes one parameter
                 as key value pair.
         """
         self.params |= params
 
-    def log_db_logs(self, db_log: dict[str, Hashable]):
+    def log_db_logs(self, db_log: dict[str, str]):
         """Log special elements that will be stored in a DB (access by API). If the element was
         logged in the same run before, it is overwritten.
 
         Args:
-            params (dict[str, Hashable]): Each dictionary entry denotes one lo as key value pair.
+            params (dict[str, str]): Each dictionary entry denotes one lo as key value pair.
         """
         self.db_logs |= db_log
 
