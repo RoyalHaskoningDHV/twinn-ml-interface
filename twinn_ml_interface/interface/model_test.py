@@ -15,17 +15,16 @@ class TestModelInterface:
             self.testmodel.model_accepts_kwargs_test()
     """
 
-    def __init__(self, model, interface, base_model) -> None:
+    def __init__(self, model, interface) -> None:
         self.model = model
         self.interface = interface
-        self.base_model = base_model
 
     def test_model_isinstance_interface(self):
         if not isinstance(self.model, self.interface):
             raise TypeError("model is not an instance of interface")
 
-    def test_model_inherits_base_model(self):
-        if not issubclass(self.model, self.base_model):
+    def test_model_inherits_base_model(self, base_model):
+        if not issubclass(self.model, base_model):
             raise ValueError("model is not a subclass of base_model")
 
     def test_model_accepts_kwargs(self, kwargs: dict[str, Any] | None = None):
