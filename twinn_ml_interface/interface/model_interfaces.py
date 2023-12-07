@@ -17,6 +17,8 @@ from twinn_ml_interface.objectmodels import (
     DataLevel,
     MetaDataLogger,
     ModelCategory,
+    PredictionType,
+    TrainWindowSizePriority,
     UnitTag,
     UnitTagTemplate,
     WindowViability,
@@ -66,7 +68,9 @@ class ModelInterfaceV4(AnnotationProtocol):
         ...
 
     @staticmethod
-    def get_train_window_finder_config_template() -> list[DataLabelConfigTemplate] | None:
+    def get_train_window_finder_config_template() -> (
+        tuple[list[DataLabelConfigTemplate], TrainWindowSizePriority] | None
+    ):
         """The config for running the train window finder.
 
         Returns:
@@ -112,7 +116,7 @@ class ModelInterfaceV4(AnnotationProtocol):
                 bool: Whether the data can be used for training. Default always true.
                 str: Additional information about the window.
         """
-        return True, "Input data is valid."
+        return {PredictionType.ML: (True, None)}
 
     def train(self, input_data: InputData, **kwargs) -> tuple[float, Any]:
         """Train a model.

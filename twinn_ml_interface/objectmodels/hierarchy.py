@@ -5,8 +5,6 @@ from datetime import timedelta
 from enum import Enum, IntEnum, auto
 from typing import Any, Callable
 
-from .model_flags import TrainWindowSizePriority
-
 
 class ModelCategory(Enum):
     ANOMALY = "anomaly"
@@ -172,7 +170,6 @@ class DataLabelConfigTemplate:
     desired_tag_number: int | None = None
     label_config: LabelConfig | None = None
     max_lookback: timedelta | None = None
-    train_window_size_priority: TrainWindowSizePriority = TrainWindowSizePriority.MAX
 
     def f(*args, **kwargs):
         return args[0]
