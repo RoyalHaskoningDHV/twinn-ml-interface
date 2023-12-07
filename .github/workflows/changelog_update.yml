@@ -2,6 +2,7 @@ name: Changelog updated
 
 on:
   push:
+    branches: [ "*" ]
     paths:
       - CHANGELOG.md
 
