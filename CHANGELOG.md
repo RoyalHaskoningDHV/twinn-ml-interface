@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.1.0
+## Version 0.2.0
 - Refactor for publication based on `RFC: ModelInterfaceV4`.
 - added runtime_checkable decorator.
 - Move annotation protocol to separate repository.
