@@ -133,8 +133,7 @@ class MetaDataLogger:
             set[str]: a set with the names of all the artifacts stored
         """
         artifact_names = set()
-        for path_dict in self.artifacts:
-            path = list(path_dict)[0]
+        for path in self.artifacts:
             if isfile(path):
                 artifact_names.add(path.split("/")[-1].split(".")[0])
             elif isdir(path):
