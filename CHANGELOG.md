@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.2.1
+- Changed type hint of `Unit.property` to dict[str, Any]
+
 ## Version 0.2.0
 - Refactor for publication based on `RFC: ModelInterfaceV4`.
 - added runtime_checkable decorator.
