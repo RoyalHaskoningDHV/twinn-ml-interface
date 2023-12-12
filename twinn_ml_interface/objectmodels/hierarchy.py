@@ -52,7 +52,7 @@ class Unit:
     name: str | None = None
     unit_type_name: str | None = None
     geometry: dict[str, list[float]] | None = None
-    properties: list | None = None
+    properties: dict[str, Any] | None = None
     metadata: dict | None = None
 
     def __hash__(self):
