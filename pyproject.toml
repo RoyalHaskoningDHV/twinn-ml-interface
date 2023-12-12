@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=42", "wheel", "toml"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+homepage = "https://github.com/RoyalHaskoningDHV/twinn-ml-interface"
+issues = "https://github.com/RoyalHaskoningDHV/twinn-ml-interface/issues"
+discussions = "https://github.com/RoyalHaskoningDHV/twinn-ml-interface/discussions"
+
+[project]
+name = "twinn-ml-interface"
+description = "Machine learning model contracts with machine learning infrastructure"
+readme = "README.md"
+requires-python = ">=3.10,<3.11"
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = ["annotation-protocol", "matplotlib", "pandas"]
+dynamic = ["version"]
+
+[tool.setuptools]
+packages.find.include = ["twinn_ml_interface*"]
+dynamic.version.attr = "twinn_ml_interface._version.__version__"
+
+[tool.black]
+line-length = 99
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+target-version = "py310"
+# Same as Black.
+line-length = 99
+
+select = [
+    "A", # Shadowing builtins
+    "C", # flake8 rules
+    "E", # Pycodestyle rules
+    "F", # Py flakes
+    "I", # isort rules
+    "S", # Bandit rules
+    "W", # Pycodestyle rules
+]
+
+fixable = [
+    "A", # Shadowing builtins
+    "C", # flake8 rules
+    "E", # Pycodestyle rules
+    "F", # Py flakes
+    "I", # isort rules
+    "S", # Bandit rules
+    "W", # Pycodestyle rules
+]
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.per-file-ignores]
+"tests/*" = ["S101"]
