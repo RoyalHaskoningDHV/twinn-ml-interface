@@ -20,8 +20,6 @@ from twinn_ml_interface.objectmodels import (
     WindowViability,
 )
 
-Logs = dict[str, object]
-
 
 @runtime_checkable
 class ModelInterfaceV4(AnnotationProtocol):
