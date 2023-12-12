@@ -1,7 +1,7 @@
 # Changelog
 
 ## Version 0.2.1
-- Changed type hint of `Unit.property` to dict[str, Any]
+- Changed type hint of `Unit.properties` to dict[str, Any]
 
 ## Version 0.2.0
 - Refactor for publication based on `RFC: ModelInterfaceV4`.
