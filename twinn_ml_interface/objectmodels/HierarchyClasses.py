@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import timedelta
 from enum import Enum, IntEnum, auto
-from typing import Callable
+from typing import Callable, Any
 
 from .ModelFlags import TrainWindowSizePriority
 from .UnitTags import TagType, UNIT_TAG_LOOKUP
@@ -57,7 +57,7 @@ class Unit:
     name: str | None = None
     unit_type_name: str | None = None
     geometry: dict[str, list[float]] | None = None
-    properties: list | None = None
+    properties: dict[str, Any] | None = None
     metadata: dict | None = None
 
     def __hash__(self):
