@@ -1,11 +1,7 @@
 from __future__ import annotations
 
 from os import PathLike
-from typing import (
-    Any,
-    Callable,
-    runtime_checkable,
-)
+from typing import runtime_checkable
 
 import pandas as pd
 from annotation_protocol import AnnotationProtocol
@@ -24,7 +20,7 @@ from twinn_ml_interface.objectmodels import (
     WindowViability,
 )
 
-Logs = dict[str, Any]
+Logs = dict[str, object]
 
 
 @runtime_checkable
@@ -118,7 +114,7 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         return {PredictionType.ML: (True, None)}
 
-    def train(self, input_data: InputData, **kwargs) -> tuple[float, Any]:
+    def train(self, input_data: InputData, **kwargs) -> tuple[float, object]:
         """Train a model.
 
         Args:
@@ -126,12 +122,12 @@ class ModelInterfaceV4(AnnotationProtocol):
 
         Returns:
             float: Number between (-inf, inf) indicating the model performance
-            Any: Any other object that can be used for testing. This object will be ignored
+            object: Any other object that can be used for testing. This object will be ignored
                 by the infrastructure
         """
         ...
 
-    def predict(self, input_data: InputData, **kwargs) -> tuple[list[pd.DataFrame], Any]:
+    def predict(self, input_data: InputData, **kwargs) -> tuple[list[pd.DataFrame], object]:
         """Run a prediction with a trained model.
 
         Args:
@@ -139,7 +135,7 @@ class ModelInterfaceV4(AnnotationProtocol):
 
         Returns:
             list[pd.DataFrame]: List of dataframes with predictions
-            Any: Any other object that can be used for testing. This object will be ignored
+            object: Any other object that can be used for testing. This object will be ignored
                 by the infrastructure
         """
         ...
@@ -158,7 +154,7 @@ class ModelInterfaceV4(AnnotationProtocol):
         return None
 
     @classmethod
-    def load(cls, foldername: PathLike, filename: str) -> Callable:
+    def load(cls, foldername: PathLike, filename: str) -> ModelInterfaceV4:
         """
         Reads the following files:
         * prefix.pkl
