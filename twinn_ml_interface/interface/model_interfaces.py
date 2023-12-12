@@ -1,4 +1,5 @@
-import logging
+from __future__ import annotations
+
 from os import PathLike
 from typing import (
     Any,
@@ -7,21 +8,20 @@ from typing import (
 )
 
 import pandas as pd
-
 from annotation_protocol import AnnotationProtocol
 
+from twinn_ml_interface.input_data import InputData
 from twinn_ml_interface.objectmodels import (
-    ModelCategory,
+    Configuration,
     DataLabelConfigTemplate,
-    DataLevels,
-    InputData,
+    DataLevel,
     MetaDataLogger,
+    ModelCategory,
     PredictionType,
-    RelativeType,
-    TagType,
     TrainWindowSizePriority,
+    UnitTag,
     UnitTagTemplate,
-    UnitTagLiteral,
+    WindowViability,
 )
 
 Logs = dict[str, Any]
@@ -29,80 +29,66 @@ Logs = dict[str, Any]
 
 @runtime_checkable
 class ModelInterfaceV4(AnnotationProtocol):
-
     model_type_name: str
     # Model category is based on the output of the model.
     model_category: ModelCategory
-    # Number between (-inf, inf) indicating the model performance.
-    performance_value: float
-    # List of features used to train the model. If not supplied, equal to data_config().
-    train_data_config: dict[DataLevels, list] | None
+    # Features used to train the model. If not supplied, equal to get_data_config_template().
+    base_features: dict[DataLevel, list[UnitTag]] | None
     # This is only needed when get_target_tag_template returns UnitTagTemplate
-    target: UnitTagLiteral | None = None
+    target: UnitTag | None = None
 
     @staticmethod
-    def get_target_tag_template() -> UnitTagTemplate | UnitTagLiteral:
-        """Get the name of the target tag to train the model.
+    def get_target_template() -> UnitTagTemplate | UnitTag:
+        """Get the UnitTag that will be the target of the model.
 
         Returns:
-            UnitTagTemplate | UnitTagLiteral: The unit tag of the model target, either as template or as literal.
+            UnitTagTemplate | UnitTag: The unit tag of the model target,
+            either as template or as literal.
         """
         ...
 
     @staticmethod
-    def get_data_config_template() -> list[DataLabelConfigTemplate] | list[UnitTagLiteral]:
+    def get_data_config_template() -> list[DataLabelConfigTemplate] | list[UnitTag]:
         """The specification of data needed to train and predict with the model.
 
         Result:
-            list[DataLabelConfigTemplate] | list[UnitTagLiteral]: The data needed to train and predict with the model,
-                either as template or as list of literals.
+            list[DataLabelConfigTemplate] | list[UnitTag]: The data needed to train and
+                predict with the model, either as template or as list of literals.
         """
         ...
 
     @staticmethod
-    def get_result_tag_template() -> UnitTagTemplate | UnitTagLiteral:
-        """The tag to post the predictions/results on.
+    def get_result_template() -> UnitTagTemplate | UnitTag:
+        """The UnitTag to post the predictions/results on.
 
         Returns:
-           UnitTagTemplate, UnitTagLiteral: The unit tag of the model's output, either as template or as literal.
+            UnitTagTemplate, UnitTag: The unit tag of the model's output, either as
+                template or as literal.
         """
         ...
 
     @staticmethod
-    def get_unit_properties_template() -> list[TagType]:
-        """Unit properties to get from the units specified in data_config.
-
-        Returns:
-            list[TagType]: The tags to request.
-        """
-        return []
-
-    @staticmethod
-    def get_unit_hierarchy_template() -> dict[str, list[RelativeType]]:
-        """Request some units from the hierarchy in a dictionary.
-
-        Returns:
-            dict[str, list[RelativeType]]: An identifier for the units to get, and their relative path from the target unit.
-        """
-        return {}
-
-    @staticmethod
-    def get_train_window_finder_config_template() -> list[DataLabelConfigTemplate] | None:
+    def get_train_window_finder_config_template() -> (
+        tuple[list[DataLabelConfigTemplate], TrainWindowSizePriority] | None
+    ):
         """The config for running the train window finder.
 
         Returns:
-            list[DataLabelConfigTemplate] | None: a template for getting the tags needed to run the train window
-                finder. Defaults to None, then no train window finder will be used.
+            list[DataLabelConfigTemplate] | None: a template for getting the tags needed to run
+                the train window finder. Defaults to None, then no train window finder will be
+                used.
         """
         return None
 
-    def initialize(logger: MetaDataLogger, internal_api: Any) -> None:
+    @classmethod
+    def initialize(cls, configuration: Configuration, logger: MetaDataLogger) -> ModelInterfaceV4:
         """Post init function to pass metadata logger and some config to the model.
 
         Args:
+            configuration (Configuration): an API-like object to retrieve configuration.
             logger (MetaDataLogger): A MetaDataLogger object to write logs to MLflow later.
-            tenant_config (dict[str, Any]): Tenant specific configuration.
         """
+        ...
 
     def preprocess(self, input_data: InputData) -> InputData:
         """Preprocess input data before training.
@@ -119,31 +105,33 @@ class ModelInterfaceV4(AnnotationProtocol):
     def validate_input_data(
         self,
         input_data: InputData,
-    ) -> dict[PredictionType, tuple[bool, str | None]]:
+    ) -> WindowViability:
         """Validate if input data is usable for training.
 
         Args:
             data (InputData): Training data.
 
         Returns:
-            dict[PredictionType, tuple[bool, str | None]]: For each PredictionType you get
+            WindowViability: For each PredictionType you get
                 bool: Whether the data can be used for training. Default always true.
                 str: Additional information about the window.
         """
-        return True, "Input data is valid."
+        return {PredictionType.ML: (True, None)}
 
-    def train(self, input_data: InputData, **kwargs) -> None:
+    def train(self, input_data: InputData, **kwargs) -> tuple[float, Any]:
         """Train a model.
 
         Args:
             input_data (InputData): Preprocessed and validated training data.
 
         Returns:
-            dict[str, Any] | None: Optionally some logs collected during training.
+            float: Number between (-inf, inf) indicating the model performance
+            Any: Any other object that can be used for testing. This object will be ignored
+                by the infrastructure
         """
         ...
 
-    def predict(self, input_data: InputData, **kwargs) -> list[pd.DataFrame]:
+    def predict(self, input_data: InputData, **kwargs) -> tuple[list[pd.DataFrame], Any]:
         """Run a prediction with a trained model.
 
         Args:
@@ -151,6 +139,8 @@ class ModelInterfaceV4(AnnotationProtocol):
 
         Returns:
             list[pd.DataFrame]: List of dataframes with predictions
+            Any: Any other object that can be used for testing. This object will be ignored
+                by the infrastructure
         """
         ...
 
@@ -168,7 +158,7 @@ class ModelInterfaceV4(AnnotationProtocol):
         return None
 
     @classmethod
-    def load(cls, foldername: PathLike, prefix: str) -> Callable:
+    def load(cls, foldername: PathLike, filename: str) -> Callable:
         """
         Reads the following files:
         * prefix.pkl
@@ -178,7 +168,7 @@ class ModelInterfaceV4(AnnotationProtocol):
 
         Args:
             foldername (PathLike): configurable folder name
-            prefix (str): configurable prefix of the file
+            filename (str): name of the file
 
         Returns:
             Model class with everything (except data) contained within to call the
