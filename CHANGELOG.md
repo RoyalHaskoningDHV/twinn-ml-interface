@@ -1,7 +1,7 @@
 # Changelog
 
 ## Version 0.2.2
-- Bug fix in `UnitTag.get_data_filter`
+- Bug fix in `UnitTag.get_data_filter`: The whole objects of Unit and Tag were being used in the Filter() instead of just the str version of them.
 
 ## Version 0.2.1
 - Changed type hint of `Unit.properties` to dict[str, Any]
