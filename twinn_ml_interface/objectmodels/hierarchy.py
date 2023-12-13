@@ -136,7 +136,7 @@ class UnitTag:
             return [("ID", "=", self.unit.unit_code)]
         filters = [
             ("UnitCode", "=", self.unit.unit_code),
-            ("TagName", "=", self.tag),
+            ("TagName", "=", self.tag.name),
         ]
         if data_level == DataLevel.WEATHER:
             filters.append(("SlicedMinutes", "=", 0))
