@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.2.2
+- Bug fix in `UnitTag.get_data_filter`
+
 ## Version 0.2.1
 - Changed type hint of `Unit.properties` to dict[str, Any]
 
