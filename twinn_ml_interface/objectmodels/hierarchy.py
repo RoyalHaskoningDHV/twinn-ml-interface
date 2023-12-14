@@ -133,10 +133,10 @@ class UnitTag:
             msg = f"Get_data_filter not implemented for data type {data_level}"
             raise NotImplementedError(msg)
         if data_level == DataLevel.AVAILABILITY:
-            return [("ID", "=", self.unit)]
+            return [("ID", "=", self.unit.unit_code)]
         filters = [
-            ("UnitCode", "=", self.unit),
-            ("TagName", "=", self.tag),
+            ("UnitCode", "=", self.unit.unit_code),
+            ("TagName", "=", self.tag.name),
         ]
         if data_level == DataLevel.WEATHER:
             filters.append(("SlicedMinutes", "=", 0))
