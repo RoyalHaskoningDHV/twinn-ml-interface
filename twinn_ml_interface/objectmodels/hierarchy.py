@@ -113,7 +113,7 @@ class UnitTag:
         return f"{self.unit.unit_code}:{self.tag.to_string(self.unit.unit_type_code)}"
 
     def __hash__(self):
-        return hash(f"{self.unit}:{self.tag.name}")
+        return hash(f"{self.unit}:{self.tag}")
 
     def get_data_filter(self, data_level: DataLevel) -> list[tuple[str, str, Any]]:
         """Convert a feed to a parquet filter.
@@ -136,7 +136,7 @@ class UnitTag:
             return [("ID", "=", self.unit.unit_code)]
         filters = [
             ("UnitCode", "=", self.unit.unit_code),
-            ("TagName", "=", self.tag.name),
+            ("TagName", "=", self.tag.to_string(self.unit.unit_type_code)),
         ]
         if data_level == DataLevel.WEATHER:
             filters.append(("SlicedMinutes", "=", 0))
