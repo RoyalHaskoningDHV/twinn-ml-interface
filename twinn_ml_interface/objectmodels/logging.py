@@ -36,8 +36,10 @@ class MetaDataLogger:
     params: dict[str, str]
     artifacts: dict[str | PathLike, str | None]
     db_logs: dict[str, Hashable]
+    artifact_dir: PathLike | None
 
-    def __init__(self):
+    def __init__(self, artifact_dir: PathLike | None = None):
+        self.artifact_dir = artifact_dir
         self.reset_cache()
 
     def log_metric(self, metric: Metric):
