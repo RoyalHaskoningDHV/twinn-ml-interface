@@ -40,7 +40,7 @@ class MetaDataLogger:
     artifact_dir: PathLike | None
 
     def __init__(self, artifact_dir: PathLike | None = None):
-        self.artifact_dir = Path(artifact_dir)
+        self.artifact_dir = Path(artifact_dir) if isinstance(artifact_dir, str) else artifact_dir
         self.reset_cache()
 
     def log_metric(self, metric: Metric):
