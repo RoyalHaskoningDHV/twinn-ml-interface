@@ -141,6 +141,15 @@ class MetaDataLogger:
                     artifact_names.add(image_filename.split(".")[0])
         return artifact_names
 
+    def log_prediction_string(self, prediction_log: str):
+        """You cannot log metrics, parameters or artifacts during predictions,
+        but you can pass a string that will be logged for a given prediction run.
+
+        Args:
+            prediction_log (str): Some information to log for a prediction run.
+        """
+        self.prediction_log = prediction_log
+
     def reset_cache(self):
         """Clear all stored items in logger cache."""
         self.created_on = datetime.now(timezone.utc)
