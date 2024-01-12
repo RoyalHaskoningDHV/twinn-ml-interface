@@ -6,7 +6,7 @@
 - Add `log_prediction_string` method to `MetaDataLogger`, which can be used to log a string later on in the database for a given prediction run.
 
 ## Version 0.2.4
-- Added LABEL to DataLabel enum
+- Added `LABEL` to `DataLabel` enum
 
 ## Version 0.2.3
 - Add Github workflow for building the wheel
