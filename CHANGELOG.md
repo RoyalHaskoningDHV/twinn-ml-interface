@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 0.2.5
+- Add `MetaDataLogger` and `Configuration` to `load` method of `ModelInterfaceV4`
+- Make `load` method of `ModelInterfaceV4` a staticmethod
+- Add `log_prediction_string` method to `MetaDataLogger`, which can be used to log a string later on in the database for a given prediction run.
+
+## Version 0.2.4
+- Added `LABEL` to `DataLabel` enum
+
+## Version 0.2.3
+- Add Github workflow for building the wheel
+
 ## Version 0.2.2
 - Bug fix in `UnitTag.get_data_filter`: The whole objects of Unit and Tag were being used in the Filter() instead of just the str version of them.
 
