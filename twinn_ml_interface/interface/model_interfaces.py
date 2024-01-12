@@ -151,18 +151,23 @@ class ModelInterfaceV4(AnnotationProtocol):
         """
         return None
 
-    @classmethod
-    def load(cls, foldername: PathLike, filename: str) -> ModelInterfaceV4:
+    @staticmethod
+    def load(
+        foldername: PathLike, filename: str, configuration: Configuration, logger: MetaDataLogger
+    ) -> ModelInterfaceV4:
         """
         Reads the following files:
         * prefix.pkl
         * prefix.h5
         from the folder given by foldername.
-        Output is an entire instance of the fitted model that was saved
+        Output is an entire instance of the fitted model that was saved.
+        Just as with `initialize`, configuration and logger are passed for you to use.
 
         Args:
             foldername (PathLike): configurable folder name
             filename (str): name of the file
+            configuration (Configuration): an API-like object to retrieve configuration.
+            logger (MetaDataLogger): A MetaDataLogger object to write logs to MLflow later.
 
         Returns:
             Model class with everything (except data) contained within to call the
