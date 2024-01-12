@@ -19,6 +19,7 @@ class DataLevel(str, Enum):
     AVAILABILITY = "availability"
     PREDICTION = "prediction"
     ANOMALY = "anomaly"
+    LABEL = "label"
 
 
 class AvailabilityLevel(IntEnum):
