@@ -1,8 +1,8 @@
 # Changelog
 
 ## Version 0.2.3
-- Add `metadatalogger` and `configuration` to `load` method of `modelinterface`
-- Make `load` method of `modelinterface` a staticmethod
+- Add `MetaDataLogger` and `Configuration` to `load` method of `ModelInterfaceV4`
+- Make `load` method of `ModelInterfaceV4` a staticmethod
 - Add `log_prediction_string` method to `MetaDataLogger`, which can be used to log a string later on in the database for a given prediction run.
 
 ## Version 0.2.2
