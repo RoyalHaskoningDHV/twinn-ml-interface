@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from os import PathLike, listdir
 from os.path import isdir, isfile
-from pathlib import Path
 from typing import Hashable
 
 
@@ -37,10 +36,8 @@ class MetaDataLogger:
     params: dict[str, str]
     artifacts: dict[str | PathLike, str | None]
     db_logs: dict[str, Hashable]
-    artifact_dir: PathLike | None
 
-    def __init__(self, artifact_dir: PathLike | None = None):
-        self.artifact_dir = Path(artifact_dir) if isinstance(artifact_dir, str) else artifact_dir
+    def __init__(self):
         self.reset_cache()
 
     def log_metric(self, metric: Metric):
