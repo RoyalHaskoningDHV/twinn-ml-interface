@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.2.3
+- Add `metadatalogger` and `configuration` to `load` method of `modelinterface`
+- Make `load` method of `modelinterface` a staticmethod
+- Add `log_prediction_string` method to `MetaDataLogger`, which can be used to log a string later on in the database for a given prediction run.
+
 ## Version 0.2.2
 - Bug fix in `UnitTag.get_data_filter`: The whole objects of Unit and Tag were being used in the Filter() instead of just the str version of them.
 
