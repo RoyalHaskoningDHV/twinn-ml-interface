@@ -20,7 +20,7 @@ class MetaDataLogger:
     also possible to log them to file temporarily.
 
     **Disclaimer**: Notice that `metrics`, `params`, `artifacts` and `db_logs` will only be
-    logged during for training. `prediction_log` will be logged only during prediction.
+    logged during training. `prediction_log` will be logged only during prediction.
 
     Examples
     --------
