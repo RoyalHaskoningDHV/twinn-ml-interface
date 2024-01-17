@@ -1,5 +1,3 @@
-
-
 class TestModelInterface:
     """
     Base class for testing if models follow the model interface
