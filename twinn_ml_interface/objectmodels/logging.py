@@ -36,6 +36,7 @@ class MetaDataLogger:
     params: dict[str, str]
     artifacts: dict[str | PathLike, str | None]
     db_logs: dict[str, Hashable]
+    prediction_log: str
 
     def __init__(self):
         self.reset_cache()
@@ -148,7 +149,7 @@ class MetaDataLogger:
         Args:
             prediction_log (str): Some information to log for a prediction run.
         """
-        self.prediction_log = prediction_log
+        self.prediction_log += '; ' + prediction_log
 
     def reset_cache(self):
         """Clear all stored items in logger cache."""
@@ -157,3 +158,4 @@ class MetaDataLogger:
         self.params = {}
         self.artifacts = {}
         self.db_logs = {}
+        self.prediction_log = ""

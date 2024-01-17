@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.2.6
+- Modified `log_prediction_string` so it can be used multiple times.
+- Removed legacy `TestModelInterfcae.test_model_accepts_kwargs`.
+
 ## Version 0.2.5
 - Add `MetaDataLogger` and `Configuration` to `load` method of `ModelInterfaceV4`
 - Make `load` method of `ModelInterfaceV4` a staticmethod
