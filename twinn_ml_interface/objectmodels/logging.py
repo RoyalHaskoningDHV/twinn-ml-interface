@@ -149,7 +149,8 @@ class MetaDataLogger:
         Args:
             prediction_log (str): Some information to log for a prediction run.
         """
-        self.prediction_log += "; " + prediction_log
+        separator = "; " if self.prediction_log else ""
+        self.prediction_log += separator + prediction_log
 
     def reset_cache(self):
         """Clear all stored items in logger cache."""
