@@ -3,6 +3,7 @@
 ## Version 0.2.7
 - Only allow returning `list[DataLabelConfigTemplate]` in interface method `get_data_config_template`.
 - In `DataLabelConfigTemplate` `unit_tag_templates` can be `list[DataLabelConfigTemplate]` or `list[UnitTag]`.
+- `DataLabelConfigTemplate.AvailabilityLevel` gets default `All`.
 
 ## Version 0.2.6
 - Modified `log_prediction_string` so it can be used multiple times.
