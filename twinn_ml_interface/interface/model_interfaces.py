@@ -42,12 +42,12 @@ class ModelInterfaceV4(AnnotationProtocol):
         ...
 
     @staticmethod
-    def get_data_config_template() -> list[DataLabelConfigTemplate] | list[UnitTag]:
+    def get_data_config_template() -> list[DataLabelConfigTemplate]:
         """The specification of data needed to train and predict with the model.
 
         Result:
-            list[DataLabelConfigTemplate] | list[UnitTag]: The data needed to train and
-                predict with the model, either as template or as list of literals.
+            list[DataLabelConfigTemplate]: The data needed to train and
+                predict with the model.
         """
         ...
 

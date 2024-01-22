@@ -166,8 +166,8 @@ class LabelConfig:
 @dataclass
 class DataLabelConfigTemplate:
     data_level: DataLevel
-    unit_tag_templates: list[UnitTagTemplate]
-    availability_level: AvailabilityLevel
+    unit_tag_templates: list[UnitTagTemplate] | list[UnitTag]
+    availability_level: AvailabilityLevel = AvailabilityLevel.ALL
     desired_tag_number: int | None = None
     label_config: LabelConfig | None = None
     max_lookback: timedelta | None = None
