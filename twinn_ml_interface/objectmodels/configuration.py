@@ -1,9 +1,10 @@
 from functools import cached_property
-from typing import Any, Protocol
+from typing import Any, Protocol, runtime_checkable
 
 from .hierarchy import RelativeType, Unit, UnitTag, UnitTagTemplate
 
 
+@runtime_checkable
 class Configuration(Protocol):
     @cached_property
     def target_name(self) -> str:
@@ -13,7 +14,13 @@ class Configuration(Protocol):
         ...
 
     @property
+    def modelled_unit_code(self) -> str:
+        """Get the unit that is being modelled."""
+        ...
+
+    @property
     def tenant(self) -> dict[str, Any]:
+        """Get tenant object from database."""
         ...
 
     @cached_property
