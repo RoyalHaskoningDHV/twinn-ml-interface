@@ -116,33 +116,6 @@ class UnitTag:
     def __hash__(self):
         return hash(f"{self.unit}:{self.tag}")
 
-    def get_data_filter(self, data_level: DataLevel) -> list[tuple[str, str, Any]]:
-        """Convert a feed to a parquet filter.
-
-        Args:
-            data_level (DataLevel): the data level.
-
-        Returns:
-            list[tuple[str, str, Any]]: a parquet filter.
-        """
-        if data_level not in [
-            DataLevel.AVAILABILITY,
-            DataLevel.DOWNSAMPLED_SENSOR,
-            DataLevel.SENSOR,
-            DataLevel.WEATHER,
-        ]:
-            msg = f"Get_data_filter not implemented for data type {data_level}"
-            raise NotImplementedError(msg)
-        if data_level == DataLevel.AVAILABILITY:
-            return [("ID", "=", self.unit.unit_code)]
-        filters = [
-            ("UnitCode", "=", self.unit.unit_code),
-            ("TagName", "=", self.tag.to_string(self.unit.unit_type_code)),
-        ]
-        if data_level == DataLevel.WEATHER:
-            filters.append(("SlicedMinutes", "=", 0))
-        return filters
-
 
 @dataclass
 class UnitTagTemplate:

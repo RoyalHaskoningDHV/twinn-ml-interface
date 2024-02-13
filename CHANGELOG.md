@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.2.9
+- Simplified `UnitTag`.
+
 ## Version 0.2.8
 - Add property `Configuration.modelled_unit_code`, that can be used when the target of the model is not the same as the modelled unit.
 
