@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.2.10
+- `InputData` now is sorted by the index.
+
 ## Version 0.2.9
 - Simplified `UnitTag`.
 
