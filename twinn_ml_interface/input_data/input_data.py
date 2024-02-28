@@ -15,7 +15,7 @@ class InputData(dict[str, pd.DataFrame]):
                 msg = "Input must be a dict"
                 raise TypeError(msg)
             self._check_valid_mapping(mapping)
-            _mapping = mapping
+            _mapping = self._format_mapping(mapping)
         else:
             _mapping = {}
 
@@ -39,13 +39,20 @@ class InputData(dict[str, pd.DataFrame]):
         if not isinstance(value.index.name, str) or value.index.name != "TIME":
             raise TypeError(f"The index from {key} dataframe should be named 'TIME'")
 
-    def _check_valid_mapping(self, element: dict) -> None:
-        for key, value in element.items():
+    @staticmethod
+    def _sort_df_by_index(df: pd.DataFrame) -> pd.DataFrame:
+        return df.sort_index()
+
+    def _format_mapping(self, mapping: dict[str, pd.DataFrame]) -> dict[str, pd.DataFrame]:
+        return {key: self._sort_df_by_index(value) for key, value in mapping.items()}
+
+    def _check_valid_mapping(self, mapping: dict) -> None:
+        for key, value in mapping.items():
             self._validate_element(key=key, value=value)
 
     def __setitem__(self, key: str, value: pd.DataFrame) -> None:
         self._validate_element(key=key, value=value)
-        super().__setitem__(key, value)
+        super().__setitem__(key, self._sort_df_by_index(df=value))
 
     def __bool__(self) -> bool:
         if not self.keys():
@@ -122,6 +129,5 @@ class InputData(dict[str, pd.DataFrame]):
             new_name = ":".join(name)
             chunk.set_index("TIME", inplace=True)
             chunk.drop(columns=["ID", "TYPE"], inplace=True)
-            chunk.rename(columns={"VALUE": new_name}, inplace=True)
-            data_chunks[new_name] = chunk.sort_index()
+            data_chunks[new_name] = chunk.rename(columns={"VALUE": new_name})
         return cls(data_chunks)
