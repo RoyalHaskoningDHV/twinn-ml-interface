@@ -96,7 +96,7 @@ class InputData(dict[str, pd.DataFrame]):
         Returns:
             pd.Timestamp: The biggest timestap
         """
-        return max([v.index.max() for _, v in self.items()])
+        return max([v.index.max() for _, v in self.items() if not v.empty])
 
     @property
     def min_datetime(self) -> pd.Timestamp:
@@ -105,7 +105,7 @@ class InputData(dict[str, pd.DataFrame]):
         Returns:
             pd.Timestamp: The smallest timestap
         """
-        return min([v.index.min() for _, v in self.items()])
+        return min([v.index.min() for _, v in self.items() if not v.empty])
 
     def to_long_format(self):
         data = []

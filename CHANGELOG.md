@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.2.11
+- `InputData.max_datetime` and `InputData.min_datetime` now always return a datetime, even if one element is an empty `pd.DataFrame`.
+
 ## Version 0.2.10
 - `InputData` now is sorted by the index.
 
