@@ -82,7 +82,7 @@ class ExecutorMock:
 
     def _init_train(self) -> tuple[ModelInterfaceV4, Configuration]:
         model_class = self.local_config.model
-        infra_config = ConfigurationMock()
+        infra_config = ConfigurationMock("", "", {}, [], [])
         return model_class, infra_config
 
     def get_training_data(
