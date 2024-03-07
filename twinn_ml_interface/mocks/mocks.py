@@ -1,4 +1,5 @@
 import os
+from copy import deepcopy
 from dataclasses import dataclass
 from functools import cached_property
 from typing import Any
@@ -77,13 +78,15 @@ class ExecutorMock:
 
     metadata_logger = MetaDataLogger()
 
-    def __init__(self, local_config: LocalConfig):
+    def __init__(self, local_config: LocalConfig, infra_config: Configuration = None):
         self.local_config = local_config
+        self.original_config = (
+            infra_config if infra_config is not None else ConfigurationMock("", "", {}, [], [])
+        )
 
     def _init_train(self) -> tuple[ModelInterfaceV4, Configuration]:
         model_class = self.local_config.model
-        infra_config = ConfigurationMock("", "", {}, [], [])
-        return model_class, infra_config
+        return model_class, deepcopy(self.original_config)
 
     def get_training_data(
         self,
@@ -180,7 +183,7 @@ class ExecutorMock:
 
     def run_predict_flow(self):
         """Run predict flow"""
-        infra_config = ConfigurationMock()
+        infra_config = deepcopy(self.original_config)
         metadata_logger = (
             MetaDataLogger()
         )  # New instance of the logger, information from training is not available

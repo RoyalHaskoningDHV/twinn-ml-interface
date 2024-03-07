@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.3.0
+- Added `mocks/`
+- Added description to README.md
+- Added `tutorials/`
+
 ## Version 0.2.11
 - `InputData.max_datetime` and `InputData.min_datetime` now always return a datetime, even if one element is an empty `pd.DataFrame`.
 
