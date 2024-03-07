@@ -6,6 +6,8 @@ from enum import Enum, IntEnum, auto
 from typing import Any, Callable
 
 
+# Whether the model outputs anomalies, predictions or actuals.
+# This determines the format in which the results are expected
 class ModelCategory(Enum):
     ANOMALY = "anomaly"
     PREDICTION = "prediction"

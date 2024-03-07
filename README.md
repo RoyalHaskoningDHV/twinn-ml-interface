@@ -20,36 +20,9 @@ pip install twinn-ml-interface
 
 ## Model Interface
 
-### Properties
-#### **model_type_name**
-An unique name for each model class.
+### Purpose
 
-#### **model_category**
-Whether the model outputs anomalies, predictions or actuals. This determines the format in which the results are expected.
-
-#### **performance_value**
-The model is expected to calculate some metric value after training to indicate the model performance.
-
-#### **train_data_config**
-N/A for most cases.
-
-#### **target_tag**
-For most cases, return a UnitTagLiteral containing the unit code and tagname of the target of the model.
-
-#### **data_config**
-For most cases, return a list of UnitTagLiterals containing all the data that is used for training the model. The training window can be passed at runtime.
-
-#### **result_tag**
-For most cases, return a UnitTagLiteral of the result unit and tag of the model.
-
-#### **unit_properties_template**
-N/A for most cases.
-
-#### **unit_hierarchy_template**
-N/A for most cases.
-
-#### **train_window_finder_config_template**
-N/A for most cases.
+The Model Interface defines the required methods and attributes that any ML model needs to have in order to run the our infrastructure.
 
 ## Testing compliance of your model with the data contract
 ### Instance of the Model Interface
