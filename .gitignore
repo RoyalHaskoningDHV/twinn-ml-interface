@@ -1,12 +1,18 @@
 # Config file (containing api keys and such)
 .config
 
+# Jupyter notebook
+*.ipynb
+!tutorial_*.ipynb
+
 # Data types
 *.csv
 *.xls
 *.xlsx
 *.xml
 *.json
+*.parquet
+!mock_data.parquet
 *.feather
 
 .ignore/
