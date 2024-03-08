@@ -3,6 +3,7 @@
 
 # Jupyter notebook
 *.ipynb
+!tutorial_*.ipynb
 
 # Data types
 *.csv
@@ -11,6 +12,7 @@
 *.xml
 *.json
 *.parquet
+!mock_data.parquet
 *.feather
 
 .ignore/

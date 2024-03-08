@@ -23,6 +23,7 @@ from twinn_ml_interface.objectmodels import (
 
 @runtime_checkable
 class ModelInterfaceV4(AnnotationProtocol):
+    # Unique name for each model class.
     model_type_name: str
     # Model category is based on the output of the model.
     model_category: ModelCategory
