@@ -1,7 +1,7 @@
 # Changelog
 
 ## Version 0.2.10
-- Add pipelines for publishing to `pypi` and `testpypi`.
+- Add pipelines for publishing to `pypi`, `testpypi`.
 
 ## Version 0.2.9
 - Simplified `UnitTag`.
