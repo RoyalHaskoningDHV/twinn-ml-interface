@@ -20,47 +20,48 @@ pip install twinn-ml-interface
 
 ## Model Interface
 
-### Properties
-#### **model_type_name**
-An unique name for each model class.
+### Purpose
 
-#### **model_category**
-Whether the model outputs anomalies, predictions or actuals. This determines the format in which the results are expected.
+The Model Interface defines the required methods and attributes that any ML model needs to have in order to run in our infrastructure.
 
-#### **performance_value**
-The model is expected to calculate some metric value after training to indicate the model performance.
+## Testing compliance of your model with the data contract
+### Instance of the Model Interface
 
-#### **train_data_config**
-N/A for most cases.
+Once all the attributes and methods from the __Protocol__ `ModelInterfaceV4` are implemented, including the correct type-hints / annotations, we can check if our models is compliant with the interface if it passes the `isinstance` check with `ModelInterfaceV4`. You can find a base test in `twinn_ml_interface/interface/model_test.py`. The [Darrow-Poc](https://github.com/RoyalHaskoningDHV/darrow-poc) is an example of a model that follows the ModelInterfaceV4.
 
-#### **target_tag**
-For most cases, return a UnitTagLiteral containing the unit code and tagname of the target of the model.
+### Mock Executors
 
-#### **data_config**
-For most cases, return a list of UnitTagLiterals containing all the data that is used for training the model. The training window can be passed at runtime.
+The `executor` class takes care of running the model either for training or predictions in our infrastructure. Here, we implemented a mock executor to emulate that behaviour to some extent, which hopefully makes it a little clearer in what context the model class will be used. Any model compliant with the ModelInterface should be able to train and predict using the `ExecutorMock` that can be found in `twinn_ml_interface/mocks/mocks.py`. The [Darrow-Poc](https://github.com/RoyalHaskoningDHV/darrow-poc) is an example of a model that follows `ModelInterfaceV4` and, for instance, can run using the `ExecutorMock`.
 
-#### **result_tag**
-For most cases, return a UnitTagLiteral of the result unit and tag of the model.
+The steps and methods that the infrastructure and the mock executor run during training are:
+1. Read config:
+    - `get_target_template()`
+    - `get_train_window_finder_config_template()`
+2. Initialize the model
+    - `initialize()`
+3. Given the configuration for the train window finder in the previous steps, validate possible windows:
+    - `validate_input_data()`
+4. Read the data configuration to download all the needed data in a window selected by the previous step:
+    - `get_data_config_template()`
+5. Transform the input data as needed:
+    - `preprocess()`
+6. Train:
+    - `train()`
+7. Store the model:
+    - `dump()`
 
-#### **unit_properties_template**
-N/A for most cases.
+When the training is finished, the model can be used for predicting. The prediction steps are:
+1. Retrieve the model from storage and load it:
+    - `load()`
+2. Fetch the data needed for prediction based on **either**:
+    -  `base_features` - if present
+    - `get_data_config_template()` - otherwise
+3. Predict:
+    - `predict()`
+4. Load configuration to post predictions:
+    - `get_result_template()`
 
-#### **unit_hierarchy_template**
-N/A for most cases.
 
-#### **train_window_finder_config_template**
-N/A for most cases.
-
-### Training
-For training, the functions of the model interface are called in the following order:
-
-1. initialize
-2. preprocess
-3. validate_input_data
-4. train
-5. dump
-
-### Prediction
-For prediction, the functions of the model interface are called in the following order:
-1. load
-2. predict
+## Example of the Model Interface
+### Darrow Poc
+The [Darrow-Poc](https://github.com/RoyalHaskoningDHV/darrow-poc) is an example of a model that follows `ModelInterfaceV4`.

@@ -1,8 +1,19 @@
 # Changelog
 
-## Version 0.2.10
+## Version 0.3.1
 - Add pipelines for publishing to `pypi`, `testpypi`.
 - Remove old pipeline to publish to `SAM` artifacts.
+  
+## Version 0.3.0
+- Added `mocks/`
+- Added description to README.md
+- Added `tutorials/`
+
+## Version 0.2.11
+- `InputData.max_datetime` and `InputData.min_datetime` now always return a datetime, even if one element is an empty `pd.DataFrame`.
+
+## Version 0.2.10
+- `InputData` now is sorted by the index.
 
 ## Version 0.2.9
 - Simplified `UnitTag`.
