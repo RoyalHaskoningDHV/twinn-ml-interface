@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.3.1
+- Add pipelines for publishing to `pypi`, `testpypi`.
+- Remove old pipeline to publish to `SAM` artifacts.
+
 ## Version 0.3.0
 - Added `mocks/`
 - Added description to README.md
