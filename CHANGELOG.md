@@ -2,6 +2,7 @@
 
 ## Version 0.2.10
 - Add pipelines for publishing to `pypi`, `testpypi`.
+- Remove old pipeline to publish to `SAM` artifacts.
 
 ## Version 0.2.9
 - Simplified `UnitTag`.
