@@ -2,6 +2,7 @@
 
 ## Version 0.3.2
 - Add testing pipeline.
+- Fix publishing pipeline (was only publishing dev versions)
 
 ## Version 0.3.1
 - Add pipelines for publishing to `pypi`, `testpypi`.
