@@ -20,7 +20,7 @@ jobs:
       run: |
         sed -i "/__version__/d" twinn_ml_interface/_version.py
         sed -i "s/__dev_version__/__version__/g" twinn_ml_interface/_version.py
-      if: github.ref != 'refs/heads/main'
+      if: github.ref != 'refs/heads/master'
 
     - name: Install pypa/build
       run: >-
