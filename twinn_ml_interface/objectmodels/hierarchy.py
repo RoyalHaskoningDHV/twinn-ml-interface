@@ -116,7 +116,7 @@ class UnitTag:
         return f"{self.unit.unit_code}:{self.tag.to_string(self.unit.unit_type_code)}"
 
     def __hash__(self):
-        return hash(f"{self.unit}:{self.tag}")
+        return hash(self.__str__())
 
 
 @dataclass
