@@ -1,3 +1,3 @@
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 
-__dev_version__ = "0.3.1.dev0"
+__dev_version__ = "0.3.2.dev0"

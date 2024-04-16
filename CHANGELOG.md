@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.3.2
+- Fix hash from `UnitTag`.
+
 ## Version 0.3.1
 - Add pipelines for publishing to `pypi`, `testpypi`.
 - Remove old pipeline to publish to `SAM` artifacts.
