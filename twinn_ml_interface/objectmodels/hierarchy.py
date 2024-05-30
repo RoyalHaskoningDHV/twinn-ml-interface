@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import timedelta
 from enum import Enum, IntEnum, auto
-from typing import Any, Callable
+from typing import Any
 
 
 # Whether the model outputs anomalies, predictions or actuals.
@@ -146,11 +146,7 @@ class DataLabelConfigTemplate:
     desired_tag_number: int | None = None
     label_config: LabelConfig | None = None
     max_lookback: timedelta | None = None
-
-    def f(*args, **kwargs):
-        return args[0]
-
-    transform: Callable = f
+    horizon: timedelta | None = None
 
 
 @dataclass
