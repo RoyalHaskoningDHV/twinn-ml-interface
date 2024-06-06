@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.4.0
+- Removed `transform` function from `DataLabelConfigTemplate` and replaced by `horizon` parameter, that can be used to request future data (useful for `ModelCategory.PREDICTION`)
+
 ## Version 0.3.2
 - Fix hash from `UnitTag`.
 
