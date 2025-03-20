@@ -147,10 +147,3 @@ class DataLabelConfigTemplate:
     label_config: LabelConfig | None = None
     max_lookback: timedelta | None = None
     horizon: timedelta | None = None
-
-
-@dataclass
-class Node:
-    val: Unit
-    parent: Node | None = None
-    children: list[Node] | None = None
