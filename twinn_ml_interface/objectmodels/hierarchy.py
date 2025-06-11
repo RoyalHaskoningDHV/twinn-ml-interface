@@ -139,39 +139,6 @@ class LabelConfig:
 
 
 @dataclass
-class Horizon:
-    """
-    Configuration for unit tags that have prediction data (e.g., weather).
-
-    Attributes:
-        horizon_range: Duration for future data retrieval (e.g., timedelta(hours=24)).
-        horizon_specific_times: Specific future times for data retrieval
-            (e.g., [timedelta(hours=12), timedelta(hours=24)]).
-        historical_predictions: Flag to use historical predictions or not.
-    """
-
-    horizon_range: timedelta | None = None
-    horizon_specific_times: list[timedelta] | None = None
-    historical_predictions: bool = False
-
-    def __post_init__(self):
-        if self.horizon_range and self.horizon_specific_times:
-            raise ValueError(
-                "Define either 'horizon_range' or 'horizon_specific_times', not both."
-            )
-        if self.historical_predictions and (
-            self.horizon_range is None or self.horizon_specific_times is None
-        ):
-            raise ValueError(
-                "Either 'horizon_range' or 'horizon_specific_times' must be defined "
-                "when historical_predictions is True"
-            )
-
-    def __bool__(self):
-        return (self.horizon_range or self.horizon_specific_times) and self.historical_predictions
-
-
-@dataclass
 class DataLabelConfigTemplate:
     data_level: DataLevel
     unit_tag_templates: list[UnitTagTemplate] | list[UnitTag]
@@ -179,5 +146,5 @@ class DataLabelConfigTemplate:
     desired_tag_number: int | None = None
     label_config: LabelConfig | None = None
     max_lookback: timedelta | None = None
-    # Use Horizon class, timedelta it's the old definition that will be removed in future versions
-    horizon: Horizon | timedelta | None = None
+    horizon: timedelta | list[timedelta] | None = None
+    historical_forecasts: bool = False

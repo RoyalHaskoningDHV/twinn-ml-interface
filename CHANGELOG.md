@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.6.0
+- Added `historical_forecasts` attribute to `DataLabelConfigTemplate`.
+- Updated `horizon` to also support `list[timedelta]`, so specific timedeltas can be retrieved instead of the full range.
+
 ## Version 0.5.0
 - Removed `Node` class, since the ML models do not interact with it.
 
