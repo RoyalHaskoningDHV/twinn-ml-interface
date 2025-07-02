@@ -1,4 +1,6 @@
 # Changelog
+## Version 0.6.0
+- Updated target attribute from `UnitTag` to `str`
 
 ## Version 0.5.0
 - Removed `Node` class, since the ML models do not interact with it.
