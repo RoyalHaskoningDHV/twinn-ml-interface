@@ -30,7 +30,7 @@ class ModelInterfaceV4(AnnotationProtocol):
     # Features used to train the model. If not supplied, equal to get_data_config_template().
     base_features: dict[DataLevel, list[UnitTag]] | None
     # This is only needed when get_target_tag_template returns UnitTagTemplate
-    target: UnitTag | None = None
+    target: str | None = None
 
     @staticmethod
     def get_target_template() -> UnitTagTemplate | UnitTag:
