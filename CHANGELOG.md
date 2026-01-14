@@ -1,4 +1,8 @@
 # Changelog
+
+## Version 0.7.0
+- Extend support to Python 3.11 and 3.12, but still keeping compatibility with 3.10.
+
 ## Version 0.6.0
 - Updated target attribute from `UnitTag` to `str`
 
