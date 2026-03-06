@@ -9,7 +9,7 @@ class TestInputData(unittest.TestCase):
     def setUp(self):
         self.sensor1 = pd.DataFrame(
             {
-                "TIME": pd.date_range(start="1970-01-01", periods=5, freq="1 H"),
+                "TIME": pd.date_range(start="1970-01-01", periods=5, freq="h"),
                 "ID": "SENSOR1",
                 "TYPE": "TAG",
                 "VALUE": [1, 2, 3, 4, 5],
@@ -18,7 +18,7 @@ class TestInputData(unittest.TestCase):
 
         self.sensor2 = pd.DataFrame(
             {
-                "TIME": pd.date_range(start="1970-02-01", periods=3, freq="1 H"),
+                "TIME": pd.date_range(start="1970-02-01", periods=3, freq="h"),
                 "ID": "SENSOR2",
                 "TYPE": "TAG",
                 "VALUE": [7, 8, 9],
