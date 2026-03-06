@@ -9,7 +9,7 @@ class TestInputData(unittest.TestCase):
     def setUp(self):
         self.sensor1 = pd.DataFrame(
             {
-                "TIME": pd.date_range(start="1970-01-01", periods=5, freq="1 H"),
+                "TIME": pd.date_range(start="1970-01-01", periods=5, freq="h"),
                 "ID": "SENSOR1",
                 "TYPE": "TAG",
                 "VALUE": [1, 2, 3, 4, 5],
@@ -18,7 +18,7 @@ class TestInputData(unittest.TestCase):
 
         self.sensor2 = pd.DataFrame(
             {
-                "TIME": pd.date_range(start="1970-02-01", periods=3, freq="1 H"),
+                "TIME": pd.date_range(start="1970-02-01", periods=3, freq="h"),
                 "ID": "SENSOR2",
                 "TYPE": "TAG",
                 "VALUE": [7, 8, 9],
@@ -55,6 +55,22 @@ class TestInputData(unittest.TestCase):
         input_data = InputData.from_long_df(self.data)
 
         assert set(input_data.unit_tags) == {"SENSOR1:TAG", "SENSOR2:TAG"}
+
+    def test_empty_columns_in_from_long_df(self):
+        empty_sensor = self.sensor1.copy()
+        empty_sensor["VALUE"] = None
+        empty_sensor["ID"] = "EMPTY_SENSOR"
+
+        data: pd.DataFrame = pd.concat([self.data, empty_sensor]).reset_index(drop=True)
+
+        data["new_col"] = None
+        data.loc[data["ID"] == "SENSOR2", "new_col"] = 1
+
+        input_data = InputData.from_long_df(data)
+
+        assert "EMPTY_SENSOR:TAG" not in input_data.unit_tags
+        assert "new_col" not in input_data["SENSOR1:TAG"].columns
+        assert "new_col" in input_data["SENSOR2:TAG"].columns
 
     def test_min_time(self):
         input_data = InputData.from_long_df(self.data)
