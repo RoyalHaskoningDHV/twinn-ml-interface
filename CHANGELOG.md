@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.7.1
+- `InputData.from_long_df` now removes completely empty columns.
+
 ## Version 0.7.0
 - Extend support to Python 3.11 and 3.12, but still keeping compatibility with 3.10.
 

@@ -129,5 +129,8 @@ class InputData(dict[str, pd.DataFrame]):
             new_name = ":".join(name)
             chunk.set_index("TIME", inplace=True)
             chunk.drop(columns=["ID", "TYPE"], inplace=True)
+            chunk.dropna(axis=1, how="all", inplace=True)
+            if "VALUE" not in chunk.columns:
+                continue
             data_chunks[new_name] = chunk.rename(columns={"VALUE": new_name})
         return cls(data_chunks)

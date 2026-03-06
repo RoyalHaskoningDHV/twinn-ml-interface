@@ -56,6 +56,22 @@ class TestInputData(unittest.TestCase):
 
         assert set(input_data.unit_tags) == {"SENSOR1:TAG", "SENSOR2:TAG"}
 
+    def test_empty_columns_in_from_long_df(self):
+        empty_sensor = self.sensor1.copy()
+        empty_sensor["VALUE"] = None
+        empty_sensor["ID"] = "EMPTY_SENSOR"
+
+        data: pd.DataFrame = pd.concat([self.data, empty_sensor]).reset_index(drop=True)
+
+        data["new_col"] = None
+        data.loc[data["ID"] == "SENSOR2", "new_col"] = 1
+
+        input_data = InputData.from_long_df(data)
+
+        assert "EMPTY_SENSOR:TAG" not in input_data.unit_tags
+        assert "new_col" not in input_data["SENSOR1:TAG"].columns
+        assert "new_col" in input_data["SENSOR2:TAG"].columns
+
     def test_min_time(self):
         input_data = InputData.from_long_df(self.data)
         assert input_data.min_datetime == pd.Timestamp("1970-01-01 00:00:00")
